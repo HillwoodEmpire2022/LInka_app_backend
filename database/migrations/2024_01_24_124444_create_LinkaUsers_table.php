@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("user_id");
             $table->unsignedBigInteger("user_type_id");
-            $table->string("provider"); // google, facebook, twitter, app,...
+            $table->string("provider")->nullable(); // google, facebook, twitter, app,...
             $table->string("status")->default("Active");
             $table->timestamps();
 
