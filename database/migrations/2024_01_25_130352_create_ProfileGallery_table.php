@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('ProfileGallery', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger("linka_user_id");
             $table->string("pathImage")->comment("this will be gallery images of the users");
             $table->boolean("isProfile")->default(false);
             $table->string("status")->default("Active")->comment("This status will be active or inactive, only privacy to you, public");
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')
+            $table->foreign('linka_user_id')->references('id')->on('LinkaUsers')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
         });

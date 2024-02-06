@@ -19,11 +19,11 @@ return new class extends Migration
             $table->string("status")->default("Active")->comment("this could be , active, inactive , deleted");
             $table->timestamps();
 
-            $table->foreign('sender_id')->references('id')->on('users')
+            $table->foreign('sender_id')->references('id')->on('LinkaUsers')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('receiver_id')->references('id')->on('users')
+            $table->foreign('receiver_id')->references('id')->on('LinkaUsers')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
         });

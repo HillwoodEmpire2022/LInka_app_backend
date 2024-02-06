@@ -13,22 +13,22 @@ return new class extends Migration
     {
         Schema::create('ChattingVerification', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("subscription_id");
+            $table->unsignedBigInteger("subscription_linka_id");
             $table->unsignedBigInteger("sender_id");
             $table->unsignedBigInteger("receiver_id");
             $table->string("amount");
-            $table->string("status")->default("Paid")->comment("Paid, Unpaid, Pending");
+            $table->string("status")->default("Paid")->comment("Paid, Unpaid, Pending, Free");
             $table->timestamps();
 
-            $table->foreign('sender_id')->references('id')->on('users')
+            $table->foreign('sender_id')->references('id')->on('LinkaUsers')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('receiver_id')->references('id')->on('users')
+            $table->foreign('receiver_id')->references('id')->on('LinkaUsers')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
 
-            $table->foreign('subscription_id')->references('id')->on('Subscription')
+            $table->foreign('subscription_linka_id')->references('id')->on('SubscriptionLinka')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
         });
