@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\SubscriptionType;
 use App\Enums\UserType;
-use App\Models\User;
+use App\Models\SubscriptionLinka;
+use App\Models\SubscriptionType as ModelsSubscriptionType;
 use App\Models\UsersType;
 use Illuminate\Console\Command;
 
@@ -32,11 +34,29 @@ class Setup extends Command
         $userTypes = UserType::cases();
 
         foreach ($userTypes as $types) {
-            UsersType::create([
-                "userType" => $types->value
+            UsersType::firstOrCreate([
+                "userType" => $types->value,
             ]);
         }
 
-        $this->info("User types created successfully");
+        // create subscription types
+        $subscriptionTypes = SubscriptionType::cases();
+
+        foreach ($subscriptionTypes as $subscription) {
+
+            ModelsSubscriptionType::firstOrCreate([
+                "subscriptionName" => $subscription->value,
+            ]);
+        }
+
+        // create default subscription of linka where subscription is free
+        SubscriptionLinka::firstOrCreate([
+            "subscription_type_id" => 1,
+            "packageName" => "Free Trial",
+            "amount" => "0",
+            "description" => "This is a free trial subscription",
+        ]);
+
+        $this->info("setup created successfully");
     }
 }
