@@ -106,6 +106,36 @@ class ProfileController extends Controller
         }
     }
 
+    public function listProfile()
+    {
+        try {
+            $result = $this->service->listProfile();
+
+            return response()->json($result);
+        } catch (\Exception $e) {
+            [$message, $statusCode, $exceptionCode] = getHttpMessageAndStatusCodeFromException($e);
+
+            return response()->json([
+                "message" => $message,
+            ], $statusCode);
+        }
+    }
+
+    public function profileDetails(int $userID)
+    {
+        try {
+            $result = $this->service->profileDetails($userID);
+
+            return response()->json($result);
+        } catch (\Exception $e) {
+            [$message, $statusCode, $exceptionCode] = getHttpMessageAndStatusCodeFromException($e);
+
+            return response()->json([
+                "message" => $message,
+            ], $statusCode);
+        }
+    }
+
     public function disableProfile()
     {
         try {

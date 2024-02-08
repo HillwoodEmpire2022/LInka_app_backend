@@ -79,6 +79,59 @@ class ProfileService
         return $updateProfile;
     }
 
+    public function listProfile()
+    {
+        $listProfile = Profile::select('Profile.firstName', 'Profile.lastName', 'Profile.height', 'Profile.weight',
+            'Profile.personalInfo', 'Profile.sexualOrientation', 'Profile.lookingFor',
+            'Profile.lookingDescription', 'Profile.profileImagePath', 'LinkaUsers.id')
+            ->join('LinkaUsers', 'Profile.linka_user_id', '=', 'LinkaUsers.id')
+            ->get();
+
+        $processedResults = $listProfile->map(function ($result) {
+            return [
+                'userID' => $result->id,
+                'firstName' => $result->firstName,
+                'lastName' => $result->lastName,
+                'height' => $result->height,
+                'weight' => $result->weight,
+                'personalInfo' => $result->personalInfo,
+                'sexualOrientation' => $result->sexualOrientation,
+                'lookingFor' => $result->lookingFor,
+                'lookingDescription' => $result->lookingFor,
+                'profileImagePath' => env('APP_URL') . '/' . 'storage/' . $result->profileImagePath,
+            ];
+        });
+
+        return $processedResults;
+    }
+
+    public function profileDetails(int $userID)
+    {
+        $listProfileDetails = Profile::select('Profile.firstName', 'Profile.lastName', 'Profile.height', 'Profile.weight',
+            'Profile.personalInfo', 'Profile.sexualOrientation', 'Profile.lookingFor',
+            'Profile.lookingDescription', 'Profile.profileImagePath', 'LinkaUsers.id')
+            ->join('LinkaUsers', 'Profile.linka_user_id', '=', 'LinkaUsers.id')
+            ->where('Profile.linka_user_id', $userID)
+            ->get();
+
+        $processedResults = $listProfileDetails->map(function ($result) {
+            return [
+                'userID' => $result->id,
+                'firstName' => $result->firstName,
+                'lastName' => $result->lastName,
+                'height' => $result->height,
+                'weight' => $result->weight,
+                'personalInfo' => $result->personalInfo,
+                'sexualOrientation' => $result->sexualOrientation,
+                'lookingFor' => $result->lookingFor,
+                'lookingDescription' => $result->lookingFor,
+                'profileImagePath' => env('APP_URL') . '/' . 'storage/' . $result->profileImagePath,
+            ];
+        });
+
+        return $processedResults;
+    }
+
     public function disableProfile()
     {
 
