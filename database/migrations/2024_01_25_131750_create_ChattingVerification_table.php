@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger("sender_id");
             $table->unsignedBigInteger("receiver_id");
             $table->string("amount");
-            $table->string("status")->default("Paid")->comment("Paid, Unpaid, Pending, Free");
+            $table->string("status")->default("Verified")->comment("Verified, Unverified, Pending");
             $table->timestamps();
 
             $table->foreign('sender_id')->references('id')->on('LinkaUsers')
