@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\CustomException;
 use App\Exceptions\ForbiddenActionException;
 use App\Exceptions\InvalidDataGivenException;
 use App\Exceptions\ItemNotFoundException;
@@ -20,7 +21,7 @@ function getHttpMessageAndStatusCodeFromException(Exception $exception)
         $exception->getMessage(),
         match (get_class($exception)) {
             InvalidDataGivenException::class => Response::HTTP_BAD_REQUEST,
-            ItemNotFoundException::class => Response::HTTP_NOT_FOUND,
+            CustomException::class => Response::HTTP_NOT_FOUND,
             ForbiddenActionException::class => Response::HTTP_FORBIDDEN,
             UnauthorizedException::class => Response::HTTP_UNAUTHORIZED,
             default => Response::HTTP_INTERNAL_SERVER_ERROR
