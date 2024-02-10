@@ -52,7 +52,7 @@ class Setup extends Command
         // create default subscription of linka where subscription is free
         SubscriptionLinka::firstOrCreate([
             "subscription_type_id" => 1,
-            "packageName" => "Free Trial",
+            "packageName" => "Free",
             "amount" => "0",
             "description" => "This is a free trial subscription",
         ]);
