@@ -53,4 +53,8 @@ Route::prefix("/match")->group(function() {
     Route::post("/request-match/{matchFrom}/{matchTo}", [MachingController::class, "requestMatching"]);
 
     Route::put("/update-match/{matchFrom}/{matchTo}", [MachingController::class, "updateMatching"]);
+
+    Route::get("/list-match/{linkaUser}", [MachingController::class, "listMatching"]);
+
+    Route::delete("decline-match/{matchFrom}/{matchTo}", [MachingController::class, "declineMatching"]);
 });
