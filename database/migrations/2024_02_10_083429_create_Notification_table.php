@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('Notification', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id'); // User to whom the notification belongs
-            $table->unsignedBigInteger("notificationType"); // Notification type ( message, likes, matches)
+            $table->string("notificationType"); // Notification type ( message, likes, matches)
             $table->string("message"); // Message of the notification
             $table->boolean("read")->default(false); // Whether the notification is read or not
             $table->timestamps();

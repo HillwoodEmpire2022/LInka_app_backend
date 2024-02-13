@@ -7,4 +7,5 @@ enum NotificationType: string
     case MESSAGE = "message";
     case MATCH = "match";
     case LIKES = "likes";
+    case Accounts = "Account";
 }
