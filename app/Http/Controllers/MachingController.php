@@ -38,4 +38,34 @@ class MachingController extends Controller
             ], $statusCode);
         }
     }
+
+    public function listMatching(int $linkaUser)
+    {
+        try {
+            $result = $this->service->listMatching($linkaUser);
+
+            return response()->json($result);
+        } catch (\Exception $e) {
+            [$message, $statusCode, $exceptionCode] = getHttpMessageAndStatusCodeFromException($e);
+
+            return response()->json([
+                "message" => $message,
+            ], $statusCode);
+        }
+    }
+
+    public function declineMatching(int $matchFrom, int $matchTo)
+    {
+        try {
+            $this->service->declineMatching($matchFrom, $matchTo);
+
+            return response()->json(["Requested Matching has been declined"]);
+        } catch (\Exception $e) {
+            [$message, $statusCode, $exceptionCode] = getHttpMessageAndStatusCodeFromException($e);
+
+            return response()->json([
+                "message" => $message,
+            ], $statusCode);
+        }
+    }
 }

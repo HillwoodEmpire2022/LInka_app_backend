@@ -13,7 +13,7 @@ class MachingService
     {
         $requestMatching = DB::transaction(function () use ($matchFrom, $matchTo) {
 
-            Matches::create([
+            Matches::firstOrCreate([
                 "match_id_from" => $matchFrom,
                 "match_id_to" => $matchTo,
             ]);
@@ -52,13 +52,35 @@ class MachingService
         return $updateMatching;
     }
 
+    public function listMatching(int $linkaUser)
+    {
+        $matching = DB::select("SELECT Profile.profileImagePath, CONCAT(Profile.firstName, ' ', Profile.lastName) AS matchUser,
+                                Profile.personalInfo, Matches.aproved
+                                FROM Matches
+                                INNER JOIN LinkaUsers
+                                ON Matches.match_id_from = LinkaUsers.id
+                                INNER JOIN Profile ON Profile.linka_user_id = LinkaUsers.id
+                                WHERE Matches.match_id_to = ? AND Matches.aproved = 0", [$linkaUser]);
+
+        return $matching;
+    }
+
+    public function declineMatching(int $matchFrom, int $matchTo)
+    {
+        $declineMatching = Matches::where(['match_id_from' => $matchFrom, 'match_id_to' => $matchTo])->first();
+
+        $declineMatching->delete();
+
+        return $declineMatching;
+    }
+
     /**
-     * return name of user who accept the matching request
+     * return name profile of user who accept match request
      *
-     * @param [type] $matchTo
+     * @param integer $matchTo
      * @return void
      */
-    public function getNameMatchingAccepted($matchTo)
+    public function getNameMatchingAccepted(int $matchTo)
     {
         $name = DB::selectOne("SELECT users.name FROM LinkaUsers
                                INNER JOIN users ON LinkaUsers.user_id = users.id WHERE LinkaUsers.id = ?", [$matchTo]);
