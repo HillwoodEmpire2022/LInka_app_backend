@@ -31,7 +31,7 @@ class FreeTrialAccess extends Command
         // Get all member users of the linka
         $linkaMembers = LinkaUsers::all();
 
-        $freeTrialID = SubscriptionLinka::where("packageName", "Free Trial")->first();
+        $freeTrialID = SubscriptionLinka::where("packageName", "Free")->first();
 
         foreach ($linkaMembers as $member) {
 
