@@ -20,12 +20,12 @@ class ProfileService
             $weight, $personalInfo, $sexualOrientation,
             $lookingFor, $lookingDescription, $profileImagePath, $linkaUserID) {
 
-            $linkaUser = $this->validatelinkaUser($linkaUserID);
+            // $linkaUser = $this->validatelinkaUser($linkaUserID);
 
             // dd($linkaUser);
 
             Profile::create([
-                "linka_user_id" => $linkaUser,
+                "linka_user_id" => $linkaUserID,
                 "firstName" => $firstName,
                 "lastName" => $lastName,
                 "nickName" => $nickName,
@@ -141,12 +141,11 @@ class ProfileService
     {
         $linkaUser = LinkaUsers::where("id", $linkaUserID)->first();
 
-        if ($linkaUser) {
+        if (!$linkaUser) {
 
-            return $linkaUser->id;
+            throw new HttpException(404, "User member does not exist");
         }
-
-        throw new HttpException(404, "User member does not exist");
+        return $linkaUser->id;
 
     }
 }
