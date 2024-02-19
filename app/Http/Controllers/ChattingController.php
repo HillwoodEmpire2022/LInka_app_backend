@@ -7,6 +7,7 @@ use App\Http\Requests\CreateMessageChattingRequest;
 use App\Models\ChattingVerification;
 use App\Models\Message;
 use App\Models\Notification;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class ChattingController extends Controller
@@ -106,7 +107,12 @@ class ChattingController extends Controller
                                    ON SubscriptionLinkaMembersType.linka_user_id = LinkaUsers.id
                                    WHERE LinkaUsers.id = ?", [$senderID]);
 
-        return $packageName->packageName;
+        if (!$packageName) {
+
+            return $packageName->packageName;
+
+        }
+        throw new Exception("You don't have any subscription please choose one first");
     }
 
     public function validateReceiverSubscription(int $receiverID)
