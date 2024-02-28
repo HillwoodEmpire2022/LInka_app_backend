@@ -54,15 +54,24 @@ class MachingService
 
     public function listMatching(int $linkaUser)
     {
-        $matching = DB::select("SELECT Profile.profileImagePath, CONCAT(Profile.firstName, ' ', Profile.lastName) AS matchUser,
-                                Profile.personalInfo, Matches.aproved
-                                FROM Matches
-                                INNER JOIN LinkaUsers
-                                ON Matches.match_id_from = LinkaUsers.id
-                                INNER JOIN Profile ON Profile.linka_user_id = LinkaUsers.id
-                                WHERE Matches.match_id_to = ? AND Matches.aproved = 0", [$linkaUser]);
+        $matching = DB::table('Matches')
+            ->select('Profile.profileImagePath', DB::raw('CONCAT(Profile.firstName, " ", Profile.lastName) AS matchUser'), 'Profile.personalInfo', 'Matches.aproved')
+            ->join('LinkaUsers', 'Matches.match_id_from', '=', 'LinkaUsers.id')
+            ->join('Profile', 'Profile.linka_user_id', '=', 'LinkaUsers.id')
+            ->where('Matches.match_id_to', $linkaUser)
+            ->where('Matches.aproved', 0)
+            ->get();
 
-        return $matching;
+        $processedResults = $matching->map(function ($result) {
+            return [
+                'profileImagePath' => env('APP_URL') . '/' . 'storage/' . $result->profileImagePath,
+                'matchUser' => $result->matchUser,
+                'personalInfo' => $result->personalInfo,
+                'aproved' => $result->aproved,
+            ];
+        });
+
+        return $processedResults;
     }
 
     public function declineMatching(int $matchFrom, int $matchTo)
