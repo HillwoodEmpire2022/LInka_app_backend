@@ -20,13 +20,13 @@ return new class extends Migration
             $table->string("status")->default("Active");
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')
-                ->onDelete('restrict')
-                ->onUpdate('cascade');
+            // $table->foreign('user_id')->references('id')->on('users')
+            //     ->onDelete('restrict')
+            //     ->onUpdate('cascade');
 
-            $table->foreign('user_type_id')->references('id')->on('UsersType')
-                ->onDelete('restrict')
-                ->onUpdate('cascade');
+            // $table->foreign('user_type_id')->references('id')->on('UsersType')
+            //     ->onDelete('restrict')
+            //     ->onUpdate('cascade');
         });
     }
 

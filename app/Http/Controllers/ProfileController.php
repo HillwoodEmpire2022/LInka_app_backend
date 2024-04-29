@@ -63,9 +63,7 @@ class ProfileController extends Controller
             if ($file) {
 
                 $nameFileProfile = $file->getClientOriginalName();
-
                 $file->storeAs('public', $nameFileProfile);
-
                 $this->service->createProfile($request->firstName, $request->lastName, $request->nickName,
                     $request->age, $request->gender,
                     $request->height, $request->weight, $request->personalInfo,
@@ -125,7 +123,6 @@ class ProfileController extends Controller
     {
         try {
             $result = $this->service->profileDetails($userID);
-
             return response()->json($result);
         } catch (\Exception $e) {
             [$message, $statusCode, $exceptionCode] = getHttpMessageAndStatusCodeFromException($e);

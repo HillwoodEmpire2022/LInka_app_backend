@@ -28,7 +28,6 @@ return new class extends Migration
             $table->text("lookingDescription")->nullable();
             $table->string("profileImagePath");
             $table->timestamps();
-
             $table->foreign('linka_user_id')->references('id')->on('LinkaUsers')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');

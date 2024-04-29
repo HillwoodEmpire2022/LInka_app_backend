@@ -18,7 +18,6 @@ return new class extends Migration
             $table->boolean("isProfile")->default(false);
             $table->string("status")->default("Active")->comment("This status will be active or inactive, only privacy to you, public");
             $table->timestamps();
-
             $table->foreign('linka_user_id')->references('id')->on('LinkaUsers')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');

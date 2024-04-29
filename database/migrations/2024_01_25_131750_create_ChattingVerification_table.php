@@ -19,15 +19,12 @@ return new class extends Migration
             $table->string("amount");
             $table->string("status")->default("Verified")->comment("Verified, Unverified, Pending");
             $table->timestamps();
-
             $table->foreign('sender_id')->references('id')->on('LinkaUsers')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
-
             $table->foreign('receiver_id')->references('id')->on('LinkaUsers')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
-
             $table->foreign('subscription_linka_id')->references('id')->on('SubscriptionLinka')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
