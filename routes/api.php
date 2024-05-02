@@ -22,39 +22,42 @@ Route::middleware('auth:sanctum')->group(function () {
 
 });
 
-Route::post('/login', [AuthenticationController::class, 'loginUser']);
+Route::post('/login', [AuthenticationController::class, 'loginUser']); // working well
 
-Route::post('/register', [AuthenticationController::class, 'registerUser']);
+Route::post('/register', [AuthenticationController::class, 'registerUser']); // working well
 
-Route::prefix("/profile")->group(function() {
+Route::prefix("/profile")->group(function() { 
 
-    Route::post("/create/{userID}", [ProfileController::class, "createProfile"])->whereNumber("userID");
+    Route::post("/create/{userID}", [ProfileController::class, "createProfile"])->whereNumber("userID"); // working well. b ut it is not protected
 
-    Route::put("/update/{userID}", [ProfileController::class, "updateProfile"])->whereNumber("profileID");
+    Route::put("/update/{userID}", [ProfileController::class, "updateProfile"])->whereNumber("profileID"); // working well. b ut it is not protected
 
     Route::post("/disable/{profileID}", [ProfileController::class, "disableProfile"])->whereNumber("profileID");
 
-    Route::get("/list", [ProfileController::class, "listProfile"]);
+    Route::get("/list", [ProfileController::class, "listProfile"]); // working well. b ut it is not protected
 
-    Route::get("/list/{userID}", [ProfileController::class, "profileDetails"]);
+    Route::get("/list/{userID}", [ProfileController::class, "profileDetails"]); // working well. b ut it is not protected
 });
 
 Route::prefix("/chatting")->group(function() {
 
-    Route::post("/linka/{senderID}/{receiverID}", [ChattingController::class, "createChatting"]);
+    Route::post("/message/send", [ChattingController::class, "createChatting"]); 
 
-    Route::get("/linka/chat-list/{userID}", [ChattingController::class, "chattingList"]);
+    Route::get("/message/list", [ChattingController::class, "chattingList"]); 
 
-    Route::get("/linka/chat-messsage/{senderID}/{receiverID}", [ChattingController::class, "chattingMessages"]);
+    Route::delete("/message/delete", [ChattingController::class, "deletingChat"]); 
+    
+    Route::patch('/message/update', [ChattingController::class, "updatingChat"]);
 });
+
 
 Route::prefix("/match")->group(function() {
 
-    Route::post("/request-match/{matchFrom}/{matchTo}", [MachingController::class, "requestMatching"]);
+    Route::post("/request-match/{matchFrom}/{matchTo}", [MachingController::class, "requestMatching"]); // working well. but it is not protected
 
-    Route::put("/update-match/{matchFrom}/{matchTo}", [MachingController::class, "updateMatching"]);
+    Route::put("/update-match/{matchFrom}/{matchTo}", [MachingController::class, "updateMatching"]); // working well. but it is not protected
 
-    Route::get("/list-match/{linkaUser}", [MachingController::class, "listMatching"]);
+    Route::get("/list-match/{linkaUser}", [MachingController::class, "listMatching"]); // working well. but it is not protected
 
-    Route::delete("decline-match/{matchFrom}/{matchTo}", [MachingController::class, "declineMatching"]);
+    Route::delete("decline-match/{matchFrom}/{matchTo}", [MachingController::class, "declineMatching"]); // working well. but it is not protected
 });

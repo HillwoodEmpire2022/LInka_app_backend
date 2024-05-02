@@ -9,7 +9,7 @@ class ChattingVerification extends Model
 {
     use HasFactory;
 
-    protected $table = "ChattingVerification";
+    protected $table = "chatting_verification";
 
     protected $guarded = [];
 }

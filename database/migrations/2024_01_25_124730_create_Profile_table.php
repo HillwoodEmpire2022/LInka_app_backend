@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('Profile', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("linka_user_id")->unique();
+            $table->unsignedBigInteger("linka_user_id")->unique()->nullable();
             $table->string("firstName");
             $table->string("lastName");
             $table->string("nickName")->comment("This nick name will take name of username from users");
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string("sexualOrientation")->nullable()->comment("this could be Straight, Gay, Lesbian, bisexual, asexual, demi sexual");
             $table->string("lookingFor")->default("Relationship")->comment("Here could be serious or just friendship");
             $table->text("lookingDescription")->nullable();
-            $table->string("profileImagePath");
+            $table->string("profileImagePath")->nullable();
             $table->timestamps();
 
             $table->foreign('linka_user_id')->references('id')->on('LinkaUsers')

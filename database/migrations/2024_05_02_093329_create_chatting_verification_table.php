@@ -11,27 +11,26 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ChattingVerification', function (Blueprint $table) {
+        Schema::create('chatting_verification', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("subscription_linka_id");
-            $table->unsignedBigInteger("sender_id");
-            $table->unsignedBigInteger("receiver_id");
-            $table->string("amount");
+            $table->unsignedBigInteger("linkerUser_id");
             $table->string("status")->default("Verified")->comment("Verified, Unverified, Pending");
+            $table->string("amount");
             $table->timestamps();
 
-            $table->foreign('sender_id')->references('id')->on('LinkaUsers')
-                ->onDelete('restrict')
-                ->onUpdate('cascade');
-
-            $table->foreign('receiver_id')->references('id')->on('LinkaUsers')
-                ->onDelete('restrict')
-                ->onUpdate('cascade');
-
+            $table->foreign('linkerUser_id')->references('user_id')->on('LinkaUsers')
+                             ->onDelete('cascade')
+                             ->onUpdate('cascade');
+            
             $table->foreign('subscription_linka_id')->references('id')->on('SubscriptionLinka')
-                ->onDelete('restrict')
-                ->onUpdate('cascade');
+                             ->onDelete('restrict')
+                             ->onUpdate('cascade');
+            
+            $table->engine = 'InnoDB';
+
         });
+
     }
 
     /**
@@ -39,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ChattingVerification');
+        Schema::dropIfExists('chatting_verification');
     }
 };

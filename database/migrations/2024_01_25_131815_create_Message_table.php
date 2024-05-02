@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('Message', function (Blueprint $table) {
             $table->id();
+            // $table->foreignId('conversation_id')->constrained();
             $table->unsignedBigInteger("sender_id");
             $table->unsignedBigInteger("receiver_id");
-            $table->string("content");
+            $table->text("content");
             $table->string("status")->default("Active")->comment("this could be , active, inactive , deleted");
             $table->timestamps();
 
@@ -26,6 +27,8 @@ return new class extends Migration
             $table->foreign('receiver_id')->references('id')->on('LinkaUsers')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
+
+            $table->timestamp('reat_at')->nullable();
         });
     }
 
