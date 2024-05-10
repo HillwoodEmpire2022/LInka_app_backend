@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string("status")->default("Verified")->comment("Verified, Unverified, Pending");
             $table->string("amount");
             $table->timestamps();
-
+                     
             $table->foreign('linkerUser_id')->references('user_id')->on('LinkaUsers')
                              ->onDelete('cascade')
                              ->onUpdate('cascade');

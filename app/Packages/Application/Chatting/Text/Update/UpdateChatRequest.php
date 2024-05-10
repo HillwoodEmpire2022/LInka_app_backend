@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Packages\Application\Chatting\Update;
+namespace App\Packages\Application\Chatting\Text\Update;
 use Illuminate\Http\Request;
 use Exception;
 

@@ -2,10 +2,10 @@
 
 namespace App\Packages\Infrastructure;
 
-use App\Models\Message;
+use App\Models\ImageMessage;
 
 
-class MessageRepository
+class ImageMessageRepository
 {
 
     protected $messageData;
@@ -14,21 +14,21 @@ class MessageRepository
 
     public function __construct()
     {
-        $this->messageModel=new Message();
+        $this->messageModel=new ImageMessage();
         
 
     }
 
-    public function createMessage(String $content, String $senderID, String $receiverID, String $conversationID)
+    public function pictureCreateMessage(String $imageUrl, String $senderID, String $receiverID, String $conversationID)
     {
 
-        $message = Message::create([
+        $message = ImageMessage::create([
             'sender_id' => $senderID, 
             'receiver_id' => $receiverID, 
-            'content' => $content,
+            'image_url' => $imageUrl,
             'conversation_id' => $conversationID]);
             
-            return $message->content;
+            return $message->image_url;
         
     }
 
@@ -41,6 +41,11 @@ class MessageRepository
         return $chatlist;
     }
 
+    public function findOnePicture(String $id){
+
+        return $this->messageModel->where('id', $id)->get();
+    }
+
     public function deleteChat(String $id){
         
         $this->messageModel->destroy($id);
@@ -49,12 +54,8 @@ class MessageRepository
 
     public function updateChatt(String $id, array $content){
 
-        $messageID = Message::findOrFail($id);
-        return $messageID->update($content);  
-    }
-
-    public function findOneMessage(String $id){
-
-        return $this->messageModel->where('id', $id)->get();
+        $messageID = ImageMessage::findOrFail($id);
+        return $messageID->update($content);
+        
     }
 }

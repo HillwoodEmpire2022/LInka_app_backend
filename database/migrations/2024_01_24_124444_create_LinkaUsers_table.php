@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('LinkaUsers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger("user_id")->unique();
             $table->unsignedBigInteger("user_type_id");
             $table->string("provider")->nullable(); // google, facebook, twitter, app,...
             $table->string('provider_id')->nullable(); // this to store provider's ID

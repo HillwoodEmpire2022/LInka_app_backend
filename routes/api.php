@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ChattingController;
 use App\Http\Controllers\MachingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ConversationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,13 +42,41 @@ Route::prefix("/profile")->group(function() {
 
 Route::prefix("/chatting")->group(function() {
 
-    Route::post("/message/send", [ChattingController::class, "createChatting"]); 
-
-    Route::get("/message/list", [ChattingController::class, "chattingList"]); 
-
-    Route::delete("/message/delete", [ChattingController::class, "deletingChat"]); 
+    // Text Messages
+    Route::post("/message/send", [ChattingController::class, "createChatting"]);
     
+    Route::get("/message/list", [ChattingController::class, "chattingList"]);
+    
+    Route::get("/message/one", [ChattingController::class, "oneChattMessage"]); 
+
+    Route::delete("/message/delete", [ChattingController::class, "deletingChat"]);
+
     Route::patch('/message/update', [ChattingController::class, "updatingChat"]);
+
+    // Audio Messages
+    Route::post("/audio/send", [ChattingController::class, "AudioChatting"]);
+
+    Route::delete("/audio/delete", [ChattingController::class, "deletingAudioChatt"]);
+
+    Route::delete("/audio/one", [ChattingController::class, "findOneAudiChat"]);
+
+   // Picture Messages
+    Route::post("/picture/send", [ChattingController::class, "pictureChatting"]);
+
+    Route::delete("/picture/delete", [ChattingController::class, "deletingPictureChat"]);
+
+    Route::get("/picture/one", [ChattingController::class, "findOnePicture"]);
+    
+});
+
+Route::prefix("/convo")->group(function(){
+    
+    Route::get("/find", [ConversationController::class, "findOneConvo"]);
+
+    Route::get('/all', [ConversationController::class, "findAllConvo"]);
+
+    Route::delete('/delete', [ConversationController::class, "deleteConvo"]);
+    
 });
 
 

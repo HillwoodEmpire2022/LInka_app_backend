@@ -2,10 +2,10 @@
 
 namespace App\Packages\Infrastructure;
 
-use App\Models\Message;
+use App\Models\VoiceMessage;
 
 
-class MessageRepository
+class VoiceMessageRepository
 {
 
     protected $messageData;
@@ -14,21 +14,21 @@ class MessageRepository
 
     public function __construct()
     {
-        $this->messageModel=new Message();
+        $this->messageModel=new VoiceMessage();
         
 
     }
 
-    public function createMessage(String $content, String $senderID, String $receiverID, String $conversationID)
+    public function AudioCreateMessage(String $voiceUrl, String $senderID, String $receiverID, String $conversationID)
     {
 
-        $message = Message::create([
+        $message = VoiceMessage::create([
             'sender_id' => $senderID, 
             'receiver_id' => $receiverID, 
-            'content' => $content,
+            'voice_url' => $voiceUrl,
             'conversation_id' => $conversationID]);
             
-            return $message->content;
+            return $message->voice_url;
         
     }
 
@@ -41,6 +41,11 @@ class MessageRepository
         return $chatlist;
     }
 
+    public function findOneAudio(String $id){
+
+        return $this->messageModel->where('id', $id)->get();
+    }
+
     public function deleteChat(String $id){
         
         $this->messageModel->destroy($id);
@@ -49,12 +54,8 @@ class MessageRepository
 
     public function updateChatt(String $id, array $content){
 
-        $messageID = Message::findOrFail($id);
-        return $messageID->update($content);  
-    }
-
-    public function findOneMessage(String $id){
-
-        return $this->messageModel->where('id', $id)->get();
+        $messageID = voiceMessage::findOrFail($id);
+        return $messageID->update($content);
+        
     }
 }

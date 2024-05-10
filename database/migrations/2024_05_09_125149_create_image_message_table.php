@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('Message', function (Blueprint $table) {
+        Schema::create('image_message', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('conversation_id')->constrained();
             $table->unsignedBigInteger("sender_id");
             $table->unsignedBigInteger("receiver_id");
-            $table->text("content");
+            $table->string("image_url");
             $table->string("status")->default("Active")->comment("this could be , active, inactive , deleted");
+            $table->unsignedBigInteger("conversation_id")->default('1');
             $table->timestamps();
 
             $table->foreign('sender_id')->references('id')->on('LinkaUsers')
@@ -27,8 +27,13 @@ return new class extends Migration
             $table->foreign('receiver_id')->references('id')->on('LinkaUsers')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
+            
+            $table->foreign('conversation_id')->references('id')->on('conversation')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
 
             $table->timestamp('reat_at')->nullable();
+           
         });
     }
 
@@ -37,6 +42,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('Message');
+        Schema::dropIfExists('image_message');
     }
 };

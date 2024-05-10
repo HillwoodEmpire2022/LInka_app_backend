@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Packages\Application\Chatting\Delete;
-use App\Packages\Application\Chatting\Delete\DeleteChatRequest;
+namespace App\Packages\Application\Chatting\Text\Delete;
+use App\Packages\Application\Chatting\Text\Delete\DeleteChatRequest;
 use App\Packages\Infrastructure\MessageRepository;
 
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Packages\Application\Chatting\Delete;
+namespace App\Packages\Application\Chatting\Text\Delete;
 use Illuminate\Http\Request;
 use Exception;
 

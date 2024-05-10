@@ -1,7 +1,7 @@
 <?php
 
-namespace App\Packages\Application\Chatting\Update;
-use App\Packages\Application\Chatting\Update\UpdateChatRequest;
+namespace App\Packages\Application\Chatting\Text\Update;
+use App\Packages\Application\Chatting\Text\Update\UpdateChatRequest;
 use App\Packages\Infrastructure\MessageRepository;
 
 
