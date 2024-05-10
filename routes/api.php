@@ -42,7 +42,7 @@ Route::prefix("/profile")->group(function() {
 
 Route::prefix("/chatting")->group(function() {
 
-    // Text Messages
+    // Text Messages endpoints
     Route::post("/message/send", [ChattingController::class, "createChatting"]);
     
     Route::get("/message/list", [ChattingController::class, "chattingList"]);
@@ -53,14 +53,14 @@ Route::prefix("/chatting")->group(function() {
 
     Route::patch('/message/update', [ChattingController::class, "updatingChat"]);
 
-    // Audio Messages
+    // Audio Messages endpoints
     Route::post("/audio/send", [ChattingController::class, "AudioChatting"]);
 
     Route::delete("/audio/delete", [ChattingController::class, "deletingAudioChatt"]);
 
     Route::delete("/audio/one", [ChattingController::class, "findOneAudiChat"]);
 
-   // Picture Messages
+   // Picture Messages endpoints
     Route::post("/picture/send", [ChattingController::class, "pictureChatting"]);
 
     Route::delete("/picture/delete", [ChattingController::class, "deletingPictureChat"]);
