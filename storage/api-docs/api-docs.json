@@ -16,82 +16,48 @@
         "/api/register": {
             "post": {
                 "tags": [
-                    "Authentication"
+                    "Auth"
                 ],
                 "summary": "Register a new user",
-                "description": "Registers a new user and returns an authentication token and user profile",
-                "operationId": "register",
-                "requestBody": {
-                    "description": "User details",
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "name",
-                                    "email",
-                                    "password"
-                                ],
-                                "properties": {
-                                    "name": {
-                                        "type": "text",
-                                        "example": "Ganza Heritier"
-                                    },
-                                    "email": {
-                                        "type": "text",
-                                        "format": "email",
-                                        "example": "linka@gmail.com"
-                                    },
-                                    "password": {
-                                        "type": "password",
-                                        "format": "password",
-                                        "example": "password"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "User registered successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "access_token": {
-                                            "type": "string"
-                                        },
-                                        "token_type": {
-                                            "type": "string",
-                                            "example": "Bearer"
-                                        },
-                                        "expires_at": {
-                                            "type": "string",
-                                            "format": "date-time"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
+                "operationId": "17e6c4938b676a872ec4c274fc7b165c",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "User's name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
                         }
                     },
-                    "422": {
-                        "description": "Unprocessable Entity",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "errors": {
-                                            "type": "string",
-                                            "example": "Validation failed"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "User's email",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
                         }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "User's password",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "User registered successfully"
+                    },
+                    "422": {
+                        "description": "Validation errors"
+                    },
+                    "419": {
+                        "description": "Page expired"
                     }
                 }
             }
@@ -99,208 +65,335 @@
         "/api/login": {
             "post": {
                 "tags": [
-                    "Authentication"
+                    "Auth"
                 ],
-                "summary": "Login User",
-                "description": "Returns an authentication token user profile if user are valid",
-                "operationId": "login",
-                "requestBody": {
-                    "description": "User credentials",
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "email",
-                                    "password"
-                                ],
-                                "properties": {
-                                    "email": {
-                                        "type": "string",
-                                        "format": "email",
-                                        "example": "ganzatambaheritier24@gmail.com"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "format": "password",
-                                        "example": "password"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "user": {
-                                            "type": "Object"
-                                        },
-                                        "token": {
-                                            "type": "string",
-                                            "example": "RM_EgTIxvheXzrdRdP05aKluwyGLCow1myMxNGEOnk74HPi0IKOtzhkeZVxHwvkmMe4J2zhUBD1CUniDd32dhaU5znwMMs6QuEUCl_cBYlY_E2VvYVB2RC0suOTrE0xdlArUpaCgYKAa0SARASFQHGX2MiEPL8fscfIhBbUAWJ9sJY"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Login Successfully"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
+                "summary": "Authenticate user and generate JWT token",
+                "operationId": "cf6cdd4140fe406a11dc479250e3b8e7",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "User's email",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
                         }
                     },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "errors": {
-                                            "type": "string",
-                                            "example": "Unauthorized"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "User's password",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Login successful"
+                    },
+                    "401": {
+                        "description": "Invalid credentials"
+                    },
+                    "419": {
+                        "description": "Page expired"
                     }
                 }
             }
         },
-        "/api/profile/create/1": {
+        "/api/profiles": {
+            "get": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Get all  User Profiles",
+                "operationId": "43d12304c3e621ecce8cc9ccd4b3738e",
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                }
+            }
+        },
+        "/api/profile/create": {
             "post": {
                 "tags": [
-                    "Prifile"
+                    "Profile"
                 ],
-                "summary": "Create a new profile member",
-                "description": "Register a new Profile member",
-                "operationId": "profile create",
-                "requestBody": {
-                    "description": "Profile Details",
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "firstName",
-                                    "lastName",
-                                    "nickName",
-                                    "age",
-                                    "gender",
-                                    "country",
-                                    "lookingFor",
-                                    "lookingDescription",
-                                    "profileImagePath"
-                                ],
-                                "properties": {
-                                    "firstName": {
-                                        "type": "text",
-                                        "example": "Heritier"
-                                    },
-                                    "lastName": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "Ganza"
-                                    },
-                                    "nickName": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "Tamba"
-                                    },
-                                    "age": {
-                                        "type": "number",
-                                        "format": "text",
-                                        "example": "25"
-                                    },
-                                    "gender": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "Male"
-                                    },
-                                    "country": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "Rwanda"
-                                    },
-                                    "height": {
-                                        "type": "number",
-                                        "format": "text",
-                                        "example": "173"
-                                    },
-                                    "weight": {
-                                        "type": "number",
-                                        "format": "text",
-                                        "example": "76"
-                                    },
-                                    "personalInfo": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "I'm looking for a girlfriend"
-                                    },
-                                    "sexualOrientation": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "bisexual"
-                                    },
-                                    "lookingFor": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "Relationship"
-                                    },
-                                    "lookingDescription": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "Looking for a long term Relationship"
-                                    },
-                                    "profileImagePath": {
-                                        "type": "text",
-                                        "format": "file",
-                                        "example": ""
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Profile Created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "Profile Created Successfully": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
+                "summary": "Create new Profile",
+                "operationId": "2f8af03be69fcf3005a7868e93c00f9d",
+                "parameters": [
+                    {
+                        "name": "firstName",
+                        "in": "query",
+                        "description": "firstname",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
                         }
                     },
-                    "422": {
-                        "description": "Unprocessable Entity",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "errors": {
-                                            "type": "string",
-                                            "example": "Validation failed"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
+                    {
+                        "name": "lastName",
+                        "in": "query",
+                        "description": "lastname",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
                         }
+                    },
+                    {
+                        "name": "nickName",
+                        "in": "query",
+                        "description": "nickname",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "age",
+                        "in": "query",
+                        "description": "age",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "gender",
+                        "in": "query",
+                        "description": "gender",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "country",
+                        "in": "query",
+                        "description": "country",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "weight",
+                        "in": "query",
+                        "description": "weight",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "height",
+                        "in": "query",
+                        "description": "height",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "personalInfo",
+                        "in": "query",
+                        "description": "personalInfo",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sexualOrientation",
+                        "in": "query",
+                        "description": "sexualOrientation",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "lookingFor",
+                        "in": "query",
+                        "description": "lookingFor",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "lookingDescription",
+                        "in": "query",
+                        "description": "lookingDescription",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "profileImagePath",
+                        "in": "query",
+                        "description": "user Profile Image",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "updated"
+                    },
+                    "401": {
+                        "description": "unAuthorized"
+                    }
+                }
+            }
+        },
+        "/api/tips": {
+            "get": {
+                "tags": [
+                    "Tips"
+                ],
+                "summary": "Get All Tips",
+                "operationId": "8767c3c692b0a5b735c50771fd0aab99",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                }
+            }
+        },
+        "/api/tip/create": {
+            "post": {
+                "tags": [
+                    "Tips"
+                ],
+                "summary": "Create new tips",
+                "operationId": "f5b2ce201b0e94946176f8a3424923c0",
+                "parameters": [
+                    {
+                        "name": "tip_title",
+                        "in": "query",
+                        "description": "Tip title",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "description about tips",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "image",
+                        "in": "query",
+                        "description": "Image",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "updated"
+                    },
+                    "401": {
+                        "description": "unAuthorized"
+                    }
+                }
+            }
+        },
+        "/api/tip/{tip}/update": {
+            "put": {
+                "tags": [
+                    "Tips"
+                ],
+                "summary": "Update tips new tips",
+                "operationId": "90381be9641412dbd3325737cf84a690",
+                "parameters": [
+                    {
+                        "name": "tip_title",
+                        "in": "query",
+                        "description": "Tip title",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "update tips tips",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "image",
+                        "in": "query",
+                        "description": "description about tips",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "updated"
+                    },
+                    "402": {
+                        "description": "unAuthorized"
+                    }
+                }
+            }
+        },
+        "/api/tip/{tip}/get": {
+            "get": {
+                "tags": [
+                    "Tips"
+                ],
+                "summary": "Get Tip details",
+                "operationId": "3f872668c421d7db1be321cb9035d0dd",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid request"
+                    }
+                }
+            }
+        },
+        "/api/tip/{tip}/delete": {
+            "delete": {
+                "tags": [
+                    "Tips"
+                ],
+                "summary": "Delete",
+                "operationId": "0dd6362290b5f23b0a6fcd70bbd2fde0",
+                "responses": {
+                    "200": {
+                        "description": "deleted"
+                    },
+                    "401": {
+                        "description": "UnAuthorized"
                     }
                 }
             }
