@@ -5,7 +5,7 @@ use Exception;
 use Illuminate\Http\Request;
 
 
-class ChattingRequest
+class ChattingTextRequest
 {
 
     protected $chatting;

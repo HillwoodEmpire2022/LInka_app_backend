@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 // Text business logic
-use App\Packages\Application\Chatting\Text\Send\ChattingRequest;
+use App\Packages\Application\Chatting\Text\Send\ChattingTextRequest;
 use App\Packages\Application\Chatting\Text\Send\ChattingService;
 use App\Packages\Application\Chatting\Text\List\ChattListRequest;
 use App\Packages\Application\Chatting\Text\List\ChattListService;
@@ -26,15 +26,48 @@ use App\Packages\Application\Chatting\Audio\Delete\DeleteAudioService;
 use App\Packages\Application\Chatting\Audio\FindOneAudio\FindOneAudioService;
 
 use Illuminate\Http\Request;
-
+use OpenApi\Attributes as OA;
 
 class ChattingController extends Controller
 
 {
     // Text Messages Controllers methods
+
+
+    /**
+     * @OA\Post(
+     *     path="/api/chatting/message/send",
+     *     summary="Send a text message",
+     *     description="Creates a new chat message",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="receiverID", type="integer", description="ID of the recipient"),
+     *             @OA\Property(property="senderID", type="integer", description="ID of the sender"),
+     *             @OA\Property(property="Conversation_id", type="integer", description="ID of the sender"),
+     *             @OA\Property(property="content", type="string", description="The message content"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Message created successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", description="Success message")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="errors", type="object", description="Error details")
+     *         )
+     *     )
+     * )
+     */
+    
     public function createchatting(Request $request, ChattingService $chattingService,)
     {
-        $chattingRequest = new ChattingRequest($request);
+        $chattingRequest = new ChattingTextRequest($request);
         return $chattingService->createchatting($chattingRequest);
     }
 

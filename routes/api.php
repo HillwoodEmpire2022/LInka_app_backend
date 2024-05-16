@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ConversationController;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -43,7 +44,7 @@ Route::prefix("/profile")->group(function() {
 Route::prefix("/chatting")->group(function() {
 
     // Text Messages endpoints
-    Route::post("/message/send", [ChattingController::class, "createChatting"]);
+    Route::post("/message/send", [ChattingController::class, "createchatting"]);
     
     Route::get("/message/list", [ChattingController::class, "chattingList"]);
     

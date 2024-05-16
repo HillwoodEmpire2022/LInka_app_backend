@@ -13,39 +13,32 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/register": {
+        "/api/chatting/message/send": {
             "post": {
-                "tags": [
-                    "Authentication"
-                ],
-                "summary": "Register a new user",
-                "description": "Registers a new user and returns an authentication token and user profile",
-                "operationId": "register",
+                "summary": "Send a text message",
+                "description": "Creates a new chat message",
+                "operationId": "0aded20e504861a8fd888efc79dd8f23",
                 "requestBody": {
-                    "description": "User details",
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "name",
-                                    "email",
-                                    "password"
-                                ],
                                 "properties": {
-                                    "name": {
-                                        "type": "text",
-                                        "example": "Ganza Heritier"
+                                    "receiverID": {
+                                        "description": "ID of the recipient",
+                                        "type": "integer"
                                     },
-                                    "email": {
-                                        "type": "text",
-                                        "format": "email",
-                                        "example": "linka@gmail.com"
+                                    "senderID": {
+                                        "description": "ID of the sender",
+                                        "type": "integer"
                                     },
-                                    "password": {
-                                        "type": "password",
-                                        "format": "password",
-                                        "example": "password"
+                                    "Conversation_id": {
+                                        "description": "ID of the sender",
+                                        "type": "integer"
+                                    },
+                                    "content": {
+                                        "description": "The message content",
+                                        "type": "string"
                                     }
                                 },
                                 "type": "object"
@@ -55,229 +48,13 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "User registered successfully",
+                        "description": "Message created successfully",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "access_token": {
-                                            "type": "string"
-                                        },
-                                        "token_type": {
-                                            "type": "string",
-                                            "example": "Bearer"
-                                        },
-                                        "expires_at": {
-                                            "type": "string",
-                                            "format": "date-time"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Unprocessable Entity",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "errors": {
-                                            "type": "string",
-                                            "example": "Validation failed"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/login": {
-            "post": {
-                "tags": [
-                    "Authentication"
-                ],
-                "summary": "Login User",
-                "description": "Returns an authentication token user profile if user are valid",
-                "operationId": "login",
-                "requestBody": {
-                    "description": "User credentials",
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "email",
-                                    "password"
-                                ],
-                                "properties": {
-                                    "email": {
-                                        "type": "string",
-                                        "format": "email",
-                                        "example": "ganzatambaheritier24@gmail.com"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "format": "password",
-                                        "example": "password"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "user": {
-                                            "type": "Object"
-                                        },
-                                        "token": {
-                                            "type": "string",
-                                            "example": "RM_EgTIxvheXzrdRdP05aKluwyGLCow1myMxNGEOnk74HPi0IKOtzhkeZVxHwvkmMe4J2zhUBD1CUniDd32dhaU5znwMMs6QuEUCl_cBYlY_E2VvYVB2RC0suOTrE0xdlArUpaCgYKAa0SARASFQHGX2MiEPL8fscfIhBbUAWJ9sJY"
-                                        },
                                         "message": {
-                                            "type": "string",
-                                            "example": "Login Successfully"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "errors": {
-                                            "type": "string",
-                                            "example": "Unauthorized"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/profile/create/1": {
-            "post": {
-                "tags": [
-                    "Prifile"
-                ],
-                "summary": "Create a new profile member",
-                "description": "Register a new Profile member",
-                "operationId": "profile create",
-                "requestBody": {
-                    "description": "Profile Details",
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "firstName",
-                                    "lastName",
-                                    "nickName",
-                                    "age",
-                                    "gender",
-                                    "country",
-                                    "lookingFor",
-                                    "lookingDescription",
-                                    "profileImagePath"
-                                ],
-                                "properties": {
-                                    "firstName": {
-                                        "type": "text",
-                                        "example": "Heritier"
-                                    },
-                                    "lastName": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "Ganza"
-                                    },
-                                    "nickName": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "Tamba"
-                                    },
-                                    "age": {
-                                        "type": "number",
-                                        "format": "text",
-                                        "example": "25"
-                                    },
-                                    "gender": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "Male"
-                                    },
-                                    "country": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "Rwanda"
-                                    },
-                                    "height": {
-                                        "type": "number",
-                                        "format": "text",
-                                        "example": "173"
-                                    },
-                                    "weight": {
-                                        "type": "number",
-                                        "format": "text",
-                                        "example": "76"
-                                    },
-                                    "personalInfo": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "I'm looking for a girlfriend"
-                                    },
-                                    "sexualOrientation": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "bisexual"
-                                    },
-                                    "lookingFor": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "Relationship"
-                                    },
-                                    "lookingDescription": {
-                                        "type": "text",
-                                        "format": "text",
-                                        "example": "Looking for a long term Relationship"
-                                    },
-                                    "profileImagePath": {
-                                        "type": "text",
-                                        "format": "file",
-                                        "example": ""
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Profile Created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "Profile Created Successfully": {
+                                            "description": "Success message",
                                             "type": "string"
                                         }
                                     },
@@ -287,14 +64,14 @@
                         }
                     },
                     "422": {
-                        "description": "Unprocessable Entity",
+                        "description": "Validation error",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "errors": {
-                                            "type": "string",
-                                            "example": "Validation failed"
+                                            "description": "Error details",
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
