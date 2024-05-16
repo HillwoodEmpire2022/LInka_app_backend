@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('profile_attachments', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->foreignId('profile_id')->constrained('profiles');
+            $table->string('image');  //test.png
+            $table->foreignId('created_by')->constrained('users');
+            $table->timestamp('created_at')->nullable();
         });
     }
 
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('profile_attachments');
     }
 };

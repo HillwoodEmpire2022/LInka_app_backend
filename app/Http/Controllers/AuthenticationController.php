@@ -16,41 +16,7 @@ class AuthenticationController extends Controller
     {
     }
 
-    /**
-     * @OA\Post(
-     *     path="/api/register",
-     *     operationId="register",
-     *     tags={"Authentication"},
-     *     summary="Register a new user",
-     *     description="Registers a new user and returns an authentication token and user profile",
-     *     @OA\RequestBody(
-     *         required=true,
-     *         description="User details",
-     *         @OA\JsonContent(
-     *             required={"name", "email", "password"},
-     *             @OA\Property(property="name", type="text", example="Ganza Heritier"),
-     *             @OA\Property(property="email", type="text", format="email", example="linka@gmail.com"),
-     *             @OA\Property(property="password", type="password", format="password", example="password")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=201,
-     *         description="User registered successfully",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="access_token", type="string"),
-     *             @OA\Property(property="token_type", type="string", example="Bearer"),
-     *             @OA\Property(property="expires_at", type="string", format="date-time")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=422,
-     *         description="Unprocessable Entity",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="errors", type="string", example="Validation failed")
-     *         )
-     *     )
-     * )
-     */
+   
     public function registerUser(RegisterRequest $request)
     {
         try {
@@ -66,40 +32,6 @@ class AuthenticationController extends Controller
         }
     }
 
-    /**
-     * @OA\Post(
-     *     path="/api/login",
-     *     operationId="login",
-     *     tags={"Authentication"},
-     *     summary="Login User",
-     *     description="Returns an authentication token user profile if user are valid",
-     *     @OA\RequestBody(
-     *         required=true,
-     *         description="User credentials",
-     *         @OA\JsonContent(
-     *             required={"email", "password"},
-     *             @OA\Property(property="email", type="string", format="email", example="ganzatambaheritier24@gmail.com"),
-     *             @OA\Property(property="password", type="string", format="password", example="password")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Successful operation",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="user", type="Object"),
-     *             @OA\Property(property="token", type="string", example="RM_EgTIxvheXzrdRdP05aKluwyGLCow1myMxNGEOnk74HPi0IKOtzhkeZVxHwvkmMe4J2zhUBD1CUniDd32dhaU5znwMMs6QuEUCl_cBYlY_E2VvYVB2RC0suOTrE0xdlArUpaCgYKAa0SARASFQHGX2MiEPL8fscfIhBbUAWJ9sJY"),
-     *             @OA\Property(property="message", type="string", example="Login Successfully")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=401,
-     *         description="Unauthorized",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="errors", type="string", example="Unauthorized")
-     *         )
-     *     )
-     * )
-     */
     public function loginUser(LoginRequest $request)
     {
         try {
@@ -108,7 +40,6 @@ class AuthenticationController extends Controller
             return response()->json($result);
         } catch (\Exception $e) {
             [$message, $statusCode, $exceptionCode] = getHttpMessageAndStatusCodeFromException($e);
-
             return response()->json([
                 "message" => $message,
             ], $statusCode);
