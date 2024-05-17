@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Packages\Application\Chatting\Text\Send;
+namespace App\Packages\Application\Chatting\Send;
 
-use App\Packages\Application\Chatting\Text\Send\ChattingRequest;
+use App\Packages\Application\Chatting\Send\ChattingRequest;
 use App\Packages\Infrastructure\MessageRepository;
 use App\Packages\Infrastructure\ChatVerification;
 use App\Packages\Application\Subscription\ValidateSender;
@@ -11,17 +11,15 @@ use App\Packages\Infrastructure\NotificationRepository;
 use App\Packages\Infrastructure\ConversationRepository;
 
 
+
+
 class ChattingService
 {
 
     protected $content;
     protected $senderID;
     protected $receiverID;
-    protected $conversationID;
     protected $messageRepository;
-    protected $validateSender;
-    protected $validateReceiver;
-    protected $chattingVerification;
     protected $senderValidation;
     protected $receiverValidation;
     protected $validatedSenderIDPackageName;
@@ -37,29 +35,27 @@ class ChattingService
         $this->content = $request->content();
         $this->senderID = $request->senderID();
         $this->receiverID = $request->receiverID();
-        $this->conversationID = $request->convoID();
         $this->messageRepository = $messageRepository;
-        $this->validateSender = $validateSender;
-        $this->validateReceiver = $validateReceiver;
-        $this->chattingVerification = $chattingVerification;
         $this->notificationRepository = $notificationRepository;
         
 
-        $this->validatedSenderIDPackageName = $this->validateSender->senderValidation($this->senderID);
+        $this->validatedSenderIDPackageName = $validateSender->senderValidation($this->senderID);
 
-        $this->validatedReceiverIDPackageName = $this->validateReceiver->receiverValidation($this->receiverID);
+        $this->validatedReceiverIDPackageName = $validateReceiver->receiverValidation($this->receiverID);
 
-        $this->senderValidation = $this->chattingVerification->senderValidation($this->senderID);
+        $this->senderValidation = $chattingVerification->senderValidation($this->senderID);
 
-        $this->receiverValidation = $this->chattingVerification->receiverValidation($this->receiverID);
+        $this->receiverValidation = $chattingVerification->receiverValidation($this->receiverID);
 
-        $this->conversationRepository = $conversationRepository->createConversation($this->conversationID, $this->validatedReceiverIDPackageName[0]);
+        $this->conversationRepository = $conversationRepository->createConversation($this->senderValidation, $this->receiverValidation);
     }
 
+   
+    
 
     public function createchatting()
     {
-
+       
         // When Both Sender and Receiver have FREE Subscription
         if ($this->validatedSenderIDPackageName[1] == 'Free' && $this->validatedReceiverIDPackageName[1] == 'Free') {
 
@@ -187,4 +183,9 @@ class ChattingService
             return "Make sure you Both have Subscription";
         }
     }
+
+    public function getReceiverName(){
+        return $this->validatedReceiverIDPackageName[0];
+    }
 }
+

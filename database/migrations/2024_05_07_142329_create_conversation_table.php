@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('conversation', function (Blueprint $table) {
             $table->id();
-            $table->string("Receiver")->nullable();
+            $table->string("receiver_id");
+            $table->string("sender_id");
             $table->softDeletes();
             $table->timestamps();
         });

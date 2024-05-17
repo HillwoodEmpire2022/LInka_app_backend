@@ -1,32 +1,43 @@
 <?php
 
-namespace App\Packages\Application\Chatting\Text\Send;
+namespace App\Packages\Application\Chatting\Send;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 
-class ChattingTextRequest
+
+class ChattingRequest
 {
 
     protected $chatting;
     protected $content;
     protected $senderID;
     protected $receiverID;
-    protected $conversationID;
+   
 
     public function __construct(Request $request)
     {
+
+        $this->validate($request);
         $this->content = $request->input('content');
         $this->senderID = $request->input('senderID');
         $this->receiverID = $request->input('receiverID');
-        $this->conversationID = $request->input('Conversation_id');
-
-        // if (empty($this->content)) throw new Exception('Make sure that You sent Something');
-        if (empty($this->senderID)) throw new Exception('No Sender ID Provided');
-        if (empty($this->receiverID)) throw new Exception('No Receiver ID Provided');
-        if (empty($this->conversationID)) throw new Exception('No Conversation ID Provided');
     }
 
+    public function validate(Request $request){
+
+        $rules = [
+            // 'content'=> 'required|string|max:1000',
+            'senderID'=> 'required|integer|exists:users,id',
+            'receiverID'=> 'required|integer|exists:users,id',
+        ];
+        $validator =Validator::make($request->all(), $rules);
+        if ($validator->fails()){
+            throw new Exception('Validation failed: ' . implode(', ', $validator->errors()->all()));
+        }
+
+    }
 
 
     public function content()
@@ -43,9 +54,6 @@ class ChattingTextRequest
     {
         return $this->receiverID;   
     }
-
-    public function convoID()
-    {
-        return $this->conversationID;   
-    }
 }
+
+

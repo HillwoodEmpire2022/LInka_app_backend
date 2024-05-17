@@ -17,17 +17,12 @@ class PictureChattingService
     protected $imageUrl;
     protected $senderID;
     protected $receiverID;
-    protected $conversationID;
     protected $messageRepository;
-    protected $validateSender;
-    protected $validateReceiver;
-    protected $chattingVerification;
     protected $senderValidation;
     protected $receiverValidation;
     protected $validatedSenderIDPackageName;
     protected $validatedReceiverIDPackageName;
     protected $notificationRepository;
-    protected $conversationRepository;
     protected $conversationIDfromRepository;
 
 
@@ -37,29 +32,23 @@ class PictureChattingService
         $this->imageUrl = $request->imageUrl();
         $this->senderID = $request->senderID();
         $this->receiverID = $request->receiverID();
-        $this->conversationID = $request->convoID();
         $this->messageRepository = $messageRepository;
-        $this->validateSender = $validateSender;
-        $this->validateReceiver = $validateReceiver;
-        $this->chattingVerification = $chattingVerification;
+       
         $this->notificationRepository = $notificationRepository;
-        $this->conversationRepository = $conversationRepository;
-        
 
-        $this->validatedSenderIDPackageName = $this->validateSender->senderValidation($this->senderID);
+        $this->validatedSenderIDPackageName = $validateSender->senderValidation($this->senderID);
 
-        $this->validatedReceiverIDPackageName = $this->validateReceiver->receiverValidation($this->receiverID);
+        $this->validatedReceiverIDPackageName = $validateReceiver->receiverValidation($this->receiverID);
 
-        $this->senderValidation = $this->chattingVerification->senderValidation($this->senderID);
+        $this->senderValidation = $chattingVerification->senderValidation($this->senderID);
 
-        $this->receiverValidation = $this->chattingVerification->receiverValidation($this->receiverID);
+        $this->receiverValidation = $chattingVerification->receiverValidation($this->receiverID);
 
-        $this->conversationIDfromRepository = $conversationRepository->createConversation($this->conversationID, $this->validatedReceiverIDPackageName[0]);
+        $this->conversationIDfromRepository = $conversationRepository->createConversation($this->senderValidation, $this->receiverValidation);
     }
 
     public function pictureCreatechatting()
     {
-
         // When Both Sender and Receiver have FREE Subscription
         if ($this->validatedSenderIDPackageName[1] == 'Free' && $this->validatedReceiverIDPackageName[1] == 'Free') {
 
@@ -68,7 +57,7 @@ class PictureChattingService
 
                 $messageData = $this->messageRepository->pictureCreateMessage($this->imageUrl, $this->senderValidation, $this->receiverValidation, $this->conversationIDfromRepository);
                 $this->notificationRepository->createNotification($this->receiverValidation);
-                $this->conversationRepository->createConversation($this->conversationID, $this->validatedReceiverIDPackageName[0]);
+               
 
                 return response([
                     "Sender's name" => $this->validatedSenderIDPackageName[0],
@@ -100,7 +89,7 @@ class PictureChattingService
 
                 $messageData = $this->messageRepository->pictureCreateMessage($this->imageUrl, $this->senderValidation, $this->receiverValidation, $this->conversationIDfromRepository);
                 $this->notificationRepository->createNotification($this->receiverValidation);
-                $this->conversationRepository->createConversation($this->conversationID, $this->validatedReceiverIDPackageName[0]);
+               
                 
 
                 return response([
@@ -132,9 +121,7 @@ class PictureChattingService
 
                 $messageData = $this->messageRepository->pictureCreateMessage($this->imageUrl, $this->senderValidation, $this->receiverValidation, $this->conversationIDfromRepository);
                 $this->notificationRepository->createNotification($this->receiverValidation);
-                $this->conversationRepository->createConversation($this->conversationID, $this->validatedReceiverIDPackageName[0]);
-              
-
+               
                 return response([
                     "Sender's name" => $this->validatedSenderIDPackageName[0],
                     "Receiver's name" => $this->validatedReceiverIDPackageName[0],
@@ -164,7 +151,7 @@ class PictureChattingService
 
                 $messageData = $this->messageRepository->pictureCreateMessage($this->imageUrl, $this->senderValidation, $this->receiverValidation, $this->conversationIDfromRepository);
                 $this->notificationRepository->createNotification($this->receiverValidation);
-                $this->conversationRepository->createConversation($this->conversationID, $this->validatedReceiverIDPackageName[0]);
+              
                 
 
                 return response([

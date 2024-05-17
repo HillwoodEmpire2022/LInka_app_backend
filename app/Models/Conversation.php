@@ -13,7 +13,8 @@ class Conversation extends Model
 
     protected $fillable = [
         'id',
-        'Receiver',
+        'sender_id',
+        'receiver_id',
     ];
 
     public function messages()

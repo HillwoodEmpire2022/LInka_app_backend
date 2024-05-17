@@ -15,27 +15,32 @@
     "paths": {
         "/api/chatting/message/send": {
             "post": {
+                "tags": [
+                    "Chatting-Text Messages"
+                ],
                 "summary": "Send a text message",
                 "description": "Creates a new chat message",
                 "operationId": "0aded20e504861a8fd888efc79dd8f23",
+                "parameters": [
+                    {
+                        "name": "senderID",
+                        "in": "query",
+                        "description": "ID of the sender",
+                        "required": true
+                    },
+                    {
+                        "name": "receiverID",
+                        "in": "query",
+                        "description": "ID of the receiver",
+                        "required": true
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "receiverID": {
-                                        "description": "ID of the recipient",
-                                        "type": "integer"
-                                    },
-                                    "senderID": {
-                                        "description": "ID of the sender",
-                                        "type": "integer"
-                                    },
-                                    "Conversation_id": {
-                                        "description": "ID of the sender",
-                                        "type": "integer"
-                                    },
                                     "content": {
                                         "description": "The message content",
                                         "type": "string"
@@ -49,6 +54,692 @@
                 "responses": {
                     "201": {
                         "description": "Message created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Success message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "description": "Error details",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/chatting/message/list": {
+            "get": {
+                "tags": [
+                    "Chatting-Text Messages"
+                ],
+                "summary": "Get Text Messages based on filters",
+                "description": "Get messages based on provided filters (optional senderID)",
+                "operationId": "b8c9690c20132b3f78231416bb919b75",
+                "parameters": [
+                    {
+                        "name": "senderID",
+                        "in": "query",
+                        "description": "ID of the sender (optional)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of messages matching filters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "messages": {
+                                            "description": "Array of message objects",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Unique identifier for the message",
+                                                        "type": "integer"
+                                                    },
+                                                    "senderID": {
+                                                        "description": "ID of the message sender",
+                                                        "type": "integer"
+                                                    },
+                                                    "content": {
+                                                        "description": "Message content",
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid query parameters)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "description": "Error details",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/chatting/message/one": {
+            "get": {
+                "tags": [
+                    "Chatting-Text Messages"
+                ],
+                "summary": "Get One Text Messages based on filters",
+                "description": "Get message based on provided filters (Message ID)",
+                "operationId": "c19f227baf1df3191a677ecd29b9a045",
+                "parameters": [
+                    {
+                        "name": "message_id",
+                        "in": "query",
+                        "description": "ID of the Message ",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "the message which matching filters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "messages": {
+                                            "description": "Array of message objects",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Unique identifier for the message",
+                                                        "type": "integer"
+                                                    },
+                                                    "message_id": {
+                                                        "description": "ID of the message",
+                                                        "type": "integer"
+                                                    },
+                                                    "content": {
+                                                        "description": "Message content",
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid query parameters)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "description": "Error details",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/chatting/message/delete": {
+            "delete": {
+                "tags": [
+                    "Chatting-Text Messages"
+                ],
+                "summary": "Delete Text Message based on filters",
+                "description": "Delete message based on provided filters",
+                "operationId": "d144ea472fa3c5afe0efc1ced3477c57",
+                "parameters": [
+                    {
+                        "name": "message_id",
+                        "in": "query",
+                        "description": "ID of the sender ",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Message deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "messages": {
+                                            "description": "Array of message objects",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Unique identifier for the message",
+                                                        "type": "integer"
+                                                    },
+                                                    "message_id": {
+                                                        "description": "ID of the message",
+                                                        "type": "integer"
+                                                    },
+                                                    "content": {
+                                                        "description": "Message content",
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid query parameters)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "description": "Error details",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/chatting/message/update": {
+            "patch": {
+                "tags": [
+                    "Chatting-Text Messages"
+                ],
+                "summary": "Partially Update message",
+                "description": "Updates specific properties of a message",
+                "operationId": "c9f0a42b0475cd0a4683aa81c16e17e7",
+                "parameters": [
+                    {
+                        "name": "message_id",
+                        "in": "query",
+                        "description": "ID of the message",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "content": {
+                                        "description": "The message content",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Message Updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Success message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "description": "Error details",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/chatting/picture/send": {
+            "post": {
+                "tags": [
+                    "Chatting-Picture Messages"
+                ],
+                "summary": "Send a Picture message",
+                "description": "Creates a new Picture message",
+                "operationId": "150cc386958a825751fb9f6dc7955f22",
+                "parameters": [
+                    {
+                        "name": "senderID",
+                        "in": "query",
+                        "description": "ID of the sender",
+                        "required": true
+                    },
+                    {
+                        "name": "receiverID",
+                        "in": "query",
+                        "description": "ID of the receiver",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "image": {
+                                        "description": "The image file to upload",
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Message created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Success message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "description": "Error details",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/chatting/picture/delete": {
+            "delete": {
+                "tags": [
+                    "Chatting-Picture Messages"
+                ],
+                "summary": "Deleting picture message",
+                "description": "Deleting specific properties of a message",
+                "operationId": "a94418e5a66cbabe647ef762ebfa8bd8",
+                "parameters": [
+                    {
+                        "name": "message_id",
+                        "in": "query",
+                        "description": "ID of the message",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Message Deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Success message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "description": "Error details",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/chatting/picture/one": {
+            "get": {
+                "tags": [
+                    "Chatting-Picture Messages"
+                ],
+                "summary": "Get One Picture Messages based on filters",
+                "description": "Get message based on provided filters (Message ID)",
+                "operationId": "a45e08165a23c9e87324cc188955ac30",
+                "parameters": [
+                    {
+                        "name": "message_id",
+                        "in": "query",
+                        "description": "ID of the Message ",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "the message which matching filters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "messages": {
+                                            "description": "Array of message objects",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Unique identifier for the message",
+                                                        "type": "integer"
+                                                    },
+                                                    "message_id": {
+                                                        "description": "ID of the message",
+                                                        "type": "integer"
+                                                    },
+                                                    "content": {
+                                                        "description": "Message content",
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid query parameters)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "description": "Error details",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/chatting/audio/send": {
+            "post": {
+                "tags": [
+                    "Chatting-Audio Messages"
+                ],
+                "summary": "Send an Audio message",
+                "description": "Creates a new Audio message",
+                "operationId": "86e522a2cac6e33a127aecc76e1d5985",
+                "parameters": [
+                    {
+                        "name": "senderID",
+                        "in": "query",
+                        "description": "ID of the sender",
+                        "required": true
+                    },
+                    {
+                        "name": "receiverID",
+                        "in": "query",
+                        "description": "ID of the receiver",
+                        "required": true
+                    },
+                    {
+                        "name": "Conversation_id",
+                        "in": "query",
+                        "description": "ID of the Conversation",
+                        "required": false
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "image": {
+                                        "description": "The image file to upload",
+                                        "type": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Message created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Success message",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "description": "Error details",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/chatting/audio/one": {
+            "get": {
+                "tags": [
+                    "Chatting-Audio Messages"
+                ],
+                "summary": "Get One Picture Messages based on filters",
+                "description": "Get message based on provided filters (Message ID)",
+                "operationId": "b66432de3c6df666e3aaaa6a78ddba74",
+                "parameters": [
+                    {
+                        "name": "message_id",
+                        "in": "query",
+                        "description": "ID of the Message ",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "the message which matching filters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "messages": {
+                                            "description": "Array of message objects",
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Unique identifier for the message",
+                                                        "type": "integer"
+                                                    },
+                                                    "message_id": {
+                                                        "description": "ID of the message",
+                                                        "type": "integer"
+                                                    },
+                                                    "content": {
+                                                        "description": "Message content",
+                                                        "type": "string"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid query parameters)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "description": "Error details",
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/chatting/audio/delete": {
+            "delete": {
+                "tags": [
+                    "Chatting-Audio Messages"
+                ],
+                "summary": "Deleting Audio message",
+                "description": "Deleting specific properties of a message",
+                "operationId": "248e533575a2b5d9ff854bfac688d41b",
+                "parameters": [
+                    {
+                        "name": "message_id",
+                        "in": "query",
+                        "description": "ID of the message",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Message Deleted successfully",
                         "content": {
                             "application/json": {
                                 "schema": {

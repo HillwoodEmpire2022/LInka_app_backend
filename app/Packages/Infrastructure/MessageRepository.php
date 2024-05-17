@@ -5,6 +5,7 @@ namespace App\Packages\Infrastructure;
 use App\Models\Message;
 
 
+
 class MessageRepository
 {
 
@@ -58,3 +59,6 @@ class MessageRepository
         return $this->messageModel->where('id', $id)->get();
     }
 }
+
+
+

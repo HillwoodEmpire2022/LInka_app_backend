@@ -3,7 +3,7 @@
 namespace App\Packages\Application\Chatting\Text\Update;
 use Illuminate\Http\Request;
 use Exception;
-
+use Illuminate\Support\Facades\Validator;
 
 class UpdateChatRequest{
 
@@ -12,11 +12,24 @@ class UpdateChatRequest{
 
     public function __construct(Request $request)
     {
+        $this->validate($request);
         $this->message_id=$request->input('message_id');
         $this->content=$request->input('content');
 
-        if (empty($this->message_id)) throw new Exception('No Message ID Provided');
-        if (empty($this->message_id)) throw new Exception('No Message Content Provided');
+      
+    }
+
+    public function validate(Request $request){
+        $rules = [
+            'message_id'=>'required|integer|users,id',
+            'content'=>'required|string|max:1000',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()){
+            throw new Exception('Validation failed: ' . implode($validator->errors()->all()));
+        }
     }
 
     public function getMessageID(){
