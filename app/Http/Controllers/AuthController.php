@@ -14,6 +14,38 @@ use Illuminate\Support\Facades\Password;
 class AuthController extends Controller
 {
     //
+/**
+* @OA\Post(
+     *     path="/api/register",
+     *     summary="Register a new user",
+     * tags={"Auth"},
+     *     @OA\Parameter(
+     *         name="name",
+     *         in="query",
+     *         description="User's name",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="email",
+     *         in="query",
+     *         description="User's email",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="password",
+     *         in="query",
+     *         description="User's password",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(response="201", description="User registered successfully"),
+     *     @OA\Response(response="422", description="Validation errors"),
+     *  @OA\Response(response="419", description="Page expired")
+     * )
+     */
+
 
     public function Register(RegisterRequest $request){
 
@@ -25,13 +57,37 @@ class AuthController extends Controller
         ]);
         
         $token = $user->createToken('userToken')->plainTextToken;
-
         $response = [
             'user'=>$user,
             'token'=>$token
         ];
         return response($response,201);
     }
+/**
+ * @OA\Post(
+ *     path="/api/login",
+ *     summary="Authenticate user and generate JWT token",
+ *     tags={"Auth"},
+ *     @OA\Parameter(
+ *         name="email",
+ *         in="query",
+ *         description="User's email",
+ *         required=true,
+ *         @OA\Schema(type="string")
+ *     ),
+ *     @OA\Parameter(
+ *         name="password",
+ *         in="query",
+ *         description="User's password",
+ *         required=true,
+ *         @OA\Schema(type="string")
+ *     ),
+ *   
+ *     @OA\Response(response="200", description="Login successful"),
+ *     @OA\Response(response="401", description="Invalid credentials"),
+ *     @OA\Response(response="419", description="Page expired")
+ * )
+ */
 
     public function Login(LoginRequest $request){
         $data = $request->validated();

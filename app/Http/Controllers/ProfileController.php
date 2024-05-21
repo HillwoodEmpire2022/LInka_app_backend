@@ -23,12 +23,124 @@ class ProfileController extends Controller
 {
     //
  
+       /**
+     * @OA\Get(
+     *     path="/api/profiles",
+     *     summary="Get all  User Profiles",
+     *   tags={"Profile"},
+     *  @OA\Response(response=200, description="Successful"),
+    *   @OA\Response(response=400, description="Invalid request")
+     * )
+     */
+
 
     public function index(){
 
         $data = Profile::query()->orderBy('id','desc');
         return ProfileResource::collection($data);
     }
+
+    /**
+     * @OA\Post(
+     *     path="/api/profile/create",
+     *     summary="Create new Profile",
+     *   tags={"Profile"},
+     *     @OA\Parameter(
+     *         name="firstName",
+     *         in="query",
+     *         description="firstname",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="lastName",
+     *         in="query",
+     *         description="lastname",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *      @OA\Parameter(
+     *         name="nickName",
+     *         in="query",
+     *         description="nickname",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *      @OA\Parameter(
+     *         name="age",
+     *         in="query",
+     *         description="age",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *      @OA\Parameter(
+     *         name="gender",
+     *         in="query",
+     *         description="gender",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *      @OA\Parameter(
+     *         name="country",
+     *         in="query",
+     *         description="country",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+    *      @OA\Parameter(
+     *         name="weight",
+     *         in="query",
+     *         description="weight",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+        *      @OA\Parameter(
+     *         name="height",
+     *         in="query",
+     *         description="height",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+        *      @OA\Parameter(
+     *         name="personalInfo",
+     *         in="query",
+     *         description="personalInfo",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *      @OA\Parameter(
+     *         name="sexualOrientation",
+     *         in="query",
+     *         description="sexualOrientation",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+    *      @OA\Parameter(
+     *         name="lookingFor",
+     *         in="query",
+     *         description="lookingFor",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+       *      @OA\Parameter(
+     *         name="lookingDescription",
+     *         in="query",
+     *         description="lookingDescription",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     * @OA\Parameter(
+     *         name="profileImagePath",
+     *         in="query",
+     *         description="user Profile Image",
+     *         required=false,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(response="201", description="updated"),
+     *     @OA\Response(response="401", description="unAuthorized")
+     * )
+     */
+
 
     public function store(StoreProfileRequest $request){
         $data = $request->validated();
@@ -107,6 +219,7 @@ class ProfileController extends Controller
     if($reaction){
 $reaction->delete();
     }
+    
     else{
         ProfileReaction::create([
             'profile_id'=>$profile->id,
