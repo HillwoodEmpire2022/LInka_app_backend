@@ -15,9 +15,7 @@ class ChattingController extends Controller
     public function createChatting(CreateMessageChattingRequest $request, int $senderID, int $receiverID)
     {
         $content = $request->content;
-
         $createChatting = DB::transaction(function () use ($content, $senderID, $receiverID) {
-
             try {
                 $senderSubscription = $this->validateSenderSubscription($senderID);
 

@@ -1,10 +1,14 @@
 <?php
 
-use App\Http\Controllers\AuthenticationController;
-use App\Http\Controllers\ChattingController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MachingController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ChattingController;
+use App\Http\Controllers\GoogleLoginController;
+use App\Http\Controllers\AuthenticationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,44 +21,48 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::middleware('auth:sanctum')->group(function () {
-
-
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+   
 });
+Route::post('/profile/{profile}/reaction',[ProfileController::class,'profileReaction']);
+Route::apiResource('/profile',ProfileController::class);
+Route::get('/profile/{profile}/reactions',[ProfileController::class,'getReactions']);
 
-Route::post('/login', [AuthenticationController::class, 'loginUser']);
+Route::post('/login', [AuthController::class, 'Login']);
+Route::post('/register', [AuthController::class, 'Register']);
+Route::post('/profile/forgot-password',[AuthController::class,'forgot']);
+Route::post('/profile/reset-password',[AuthController::class,'ResetPassword']);
 
-Route::post('/register', [AuthenticationController::class, 'registerUser']);
+Route::get('/login/google', [GoogleLoginController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('/login/google/callback', [GoogleLoginController::class, 'handleGoogleCallback']);
 
-Route::prefix("/profile")->group(function() {
 
-    Route::post("/create/{userID}", [ProfileController::class, "createProfile"])->whereNumber("userID");
 
-    Route::put("/update/{userID}", [ProfileController::class, "updateProfile"])->whereNumber("profileID");
 
-    Route::post("/disable/{profileID}", [ProfileController::class, "disableProfile"])->whereNumber("profileID");
 
-    Route::get("/list", [ProfileController::class, "listProfile"]);
 
-    Route::get("/list/{userID}", [ProfileController::class, "profileDetails"]);
-});
 
-Route::prefix("/chatting")->group(function() {
 
-    Route::post("/linka/{senderID}/{receiverID}", [ChattingController::class, "createChatting"]);
+// Route::prefix("/chatting")->group(function() {
 
-    Route::get("/linka/chat-list/{userID}", [ChattingController::class, "chattingList"]);
+//     Route::post("/linka/{senderID}/{receiverID}", [ChattingController::class, "createChatting"]);
 
-    Route::get("/linka/chat-messsage/{senderID}/{receiverID}", [ChattingController::class, "chattingMessages"]);
-});
+//     Route::get("/linka/chat-list/{userID}", [ChattingController::class, "chattingList"]);
 
-Route::prefix("/match")->group(function() {
+//     Route::get("/linka/chat-messsage/{senderID}/{receiverID}", [ChattingController::class, "chattingMessages"]);
+// });
 
-    Route::post("/request-match/{matchFrom}/{matchTo}", [MachingController::class, "requestMatching"]);
+// Route::prefix("/match")->group(function() {
+//     Route::post("/request-match/{matchFrom}/{matchTo}", [MachingController::class, "requestMatching"]);
 
-    Route::put("/update-match/{matchFrom}/{matchTo}", [MachingController::class, "updateMatching"]);
+//     Route::put("/update-match/{matchFrom}/{matchTo}", [MachingController::class, "updateMatching"]);
 
-    Route::get("/list-match/{linkaUser}", [MachingController::class, "listMatching"]);
+//     Route::get("/list-match/{linkaUser}", [MachingController::class, "listMatching"]);
 
-    Route::delete("decline-match/{matchFrom}/{matchTo}", [MachingController::class, "declineMatching"]);
-});
+//     Route::delete("decline-match/{matchFrom}/{matchTo}", [MachingController::class, "declineMatching"]);
+// });

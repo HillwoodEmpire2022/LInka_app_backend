@@ -2,150 +2,158 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateProfileRequest;
+use App\Enums\ProfileReactionEnum;
+use App\Enums\ProfileReactions;
+use App\Models\Profile;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use App\Models\ProfileAttachment;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\ProfileResource;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\StoreProfileRequest;
 use App\Http\Requests\UpdateProfileRequest;
-use App\Services\ProfileService;
+use App\Models\ProfileReaction;
 
 class ProfileController extends Controller
 {
-    public function __construct(protected ProfileService $service)
-    {
-    }
-    /**
-     * @OA\Post(
-     *     path="/api/profile/create/1",
-     *     operationId="profile create",
-     *     tags={"Prifile"},
-     *     summary="Create a new profile member",
-     *     description="Register a new Profile member",
-     *     @OA\RequestBody(
-     *         required=true,
-     *         description="Profile Details",
-     *         @OA\JsonContent(
-     *             required={"firstName", "lastName", "nickName", "age", "gender", "country", "lookingFor", "lookingDescription", "profileImagePath"},
-     *             @OA\Property(property="firstName", type="text", example="Heritier"),
-     *             @OA\Property(property="lastName", type="text", format="text", example="Ganza"),
-     *             @OA\Property(property="nickName", type="text", format="text", example="Tamba"),
-     *             @OA\Property(property="age", type="number", format="text", example="25"),
-     *             @OA\Property(property="gender", type="text", format="text", example="Male"),
-     *             @OA\Property(property="country", type="text", format="text", example="Rwanda"),
-     *             @OA\Property(property="height", type="number", format="text", example="173"),
-     *             @OA\Property(property="weight", type="number", format="text", example="76"),
-     *             @OA\Property(property="personalInfo", type="text", format="text", example="I'm looking for a girlfriend"),
-     *             @OA\Property(property="sexualOrientation", type="text", format="text", example="bisexual"),
-     *             @OA\Property(property="lookingFor", type="text", format="text", example="Relationship"),
-     *             @OA\Property(property="lookingDescription", type="text", format="text", example="Looking for a long term Relationship"),
-     *             @OA\Property(property="profileImagePath", type="text", format="file", example="")
-     *
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=201,
-     *         description="Profile Created successfully",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="Profile Created Successfully", type="string"),
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=422,
-     *         description="Unprocessable Entity",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="errors", type="string", example="Validation failed")
-     *         )
-     *     )
-     * )
-     */
-    public function createProfile(CreateProfileRequest $request, $linkaUserID)
-    {
-        try {
-            $file = $request->file('profileImagePath');
+    //
+ 
 
-            if ($file) {
+    public function index(){
 
-                $nameFileProfile = $file->getClientOriginalName();
-
-                $file->storeAs('public', $nameFileProfile);
-
-                $this->service->createProfile($request->firstName, $request->lastName, $request->nickName,
-                    $request->age, $request->gender,
-                    $request->height, $request->weight, $request->personalInfo,
-                    $request->sexualOrientation, $request->lookingFor, $request->lookingDescription,
-                    $nameFileProfile, $linkaUserID);
-
-                return response()->json(["Profile Created Successfully"]);
-
-            } else {
-
-                return response()->json(["failed to upload Profile file image and description, please try again"]);
-            }
-        } catch (\Exception $e) {
-            [$message, $statusCode, $exceptionCode] = getHttpMessageAndStatusCodeFromException($e);
-
-            return response()->json([
-                "message" => $message,
-            ], $statusCode);
-        }
+        $data = Profile::query()->orderBy('id','desc');
+        return ProfileResource::collection($data);
     }
 
-    public function updateProfile(UpdateProfileRequest $request, $linkaUserID)
-    {
-        try {
+    public function store(StoreProfileRequest $request){
+        $data = $request->validated();
+       $user =  $request->user();
+         $image = $data['profileImagePath'] ?? null;
+          // Check if image was given and save on local file system
 
-            $this->service->updateProfile($request->firstName, $request->lastName, $request->nickName,
-                $request->age, $request->gender,
-                $request->height, $request->weight, $request->personalInfo,
-                $request->sexualOrientation, $request->lookingFor, $request->lookingDescription, $linkaUserID);
+          if($image){
+            $relativepath = $this->saveImage($image);
+            $data['profileImagePath'] = URL::to((Storage::url($relativepath)));
+            $data['image_mime'] = $image->getClientMimeType();
+            $data['image_size'] = $image->getSize();
+          }
+        $profile = Profile::create($data);
+        //  if($request->hasFile('profileAttachments')){
+        //     foreach($request->file('profileAttachments') as $image){
+        //         $imageName = $image->getClientOriginalName();
+        //         $image->move(public_path('attachments'),$imageName);
+        //         $profileAttachment = new ProfileAttachment(['image'=>$imageName]);
+        //         $profile->attachments()->save($profileAttachment);
+        //      }
 
-            return response()->json(["Profile Updated Successfully"]);
-        } catch (\Exception $e) {
-            [$message, $statusCode, $exceptionCode] = getHttpMessageAndStatusCodeFromException($e);
-
-            return response()->json([
-                "message" => $message,
-            ], $statusCode);
-        }
+        //  }
+            return new ProfileResource($profile);
+        
     }
 
-    public function listProfile()
+    public function update(UpdateProfileRequest $request,Profile $profile){
+
+        $data = $request->validated();
+          $image = $data['profileImagePath'] ?? null;
+           // Check if image was given and save on local file system
+           if($image){
+             $relativepath = $this->saveImage($image);
+             $data['profileImagePath'] = URL::to((Storage::url($relativepath)));
+             $data['image_mime'] = $image->getClientMimeType();
+             $data['image_size'] = $image->getSize();
+           }
+
+           $profile->update($data);
+           return new ProfileResource($profile);
+    }
+    public function show(Profile $profile){
+        return new ProfileResource($profile);
+    }
+//  // Method to get all reactions made on a single profile
+//     public function getReactions(Profile $profile)
+//     {
+//         // Eager load the reactions with the profile
+//         $profileWithReactions = Profile::with('reactions')->find($profile->id);
+
+//         return response()->json(['success' => true, 'profile' => $profileWithReactions]);
+//     }
+
+       public function getReactions(Profile $profile)
     {
-        try {
-            $result = $this->service->listProfile();
+        // Eager load the reactions with the user details
+        $profileWithReactions = Profile::with(['reactions' => function ($query) {
+            $query->with('user:id,name,email'); // Load user details (you can customize what you want to load)
+        }])->find($profile->id);
 
-            return response()->json($result);
-        } catch (\Exception $e) {
-            [$message, $statusCode, $exceptionCode] = getHttpMessageAndStatusCodeFromException($e);
+        return response()->json(['success' => true, 'profile' => $profileWithReactions]);
+    }
+    
 
-            return response()->json([
-                "message" => $message,
-            ], $statusCode);
+
+    public function profileReaction(Request $request,Profile $profile){
+    $user = $request->user(); 
+    $data = $request->validate([
+        'type'=>[Rule::enum(ProfileReactionEnum::class)],
+    ]);
+
+    $userId = Auth::id();
+    $reaction =  ProfileReaction::where('user_id',$userId)->where('profile_id',$profile->id)->first();
+    
+    if($reaction){
+$reaction->delete();
+    }
+    else{
+        ProfileReaction::create([
+            'profile_id'=>$profile->id,
+             'user_id'=> $user->id,
+            'type'=>$data['type']
+        ]);
+    }
+    $reactions = ProfileReaction::where('profile_id',$profile->id)->count();
+    return response(['success'=>true,
+     'reactions'=>$reactions
+]);
+
+
+
+}
+
+
+
+  public function destroy(Profile $profile){
+    $id = Auth::id();
+    $profile->delete();
+    return response()->json([
+    'message'=>'profile deleted successfully'
+    ]);
+  }
+    private function saveImage(UploadedFile $image)
+    {
+        $path = 'images/' . Str::random();
+        if (!Storage::exists($path)) {
+            Storage::makeDirectory($path, 0755, true);
         }
+        if (!Storage::putFileAS('public/' . $path, $image, $image->getClientOriginalName())) {
+            throw new \Exception("Unable to save file \"{$image->getClientOriginalName()}\"");
+        }
+        return $path . '/' . $image->getClientOriginalName();
     }
 
-    public function profileDetails(int $userID)
+
+    private function saveProfileAttachment(UploadedFile $profileAttachment)
     {
-        try {
-            $result = $this->service->profileDetails($userID);
-
-            return response()->json($result);
-        } catch (\Exception $e) {
-            [$message, $statusCode, $exceptionCode] = getHttpMessageAndStatusCodeFromException($e);
-
-            return response()->json([
-                "message" => $message,
-            ], $statusCode);
+        $path = 'images/' . Str::random();
+        if (!Storage::exists($path)) {
+            Storage::makeDirectory($path, 0755, true);
         }
-    }
-
-    public function disableProfile()
-    {
-        try {
-            //code...
-        } catch (\Exception $e) {
-            [$message, $statusCode, $exceptionCode] = getHttpMessageAndStatusCodeFromException($e);
-
-            return response()->json([
-                "message" => $message,
-            ], $statusCode);
+        if (!Storage::putFileAS('public/' . $path, $profileAttachment, $profileAttachment->getClientOriginalName())) {
+            throw new \Exception("Unable to save file \"{$profileAttachment->getClientOriginalName()}\"");
         }
+        return $path . '/' . $profileAttachment->getClientOriginalName();
     }
 }

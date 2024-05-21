@@ -21,7 +21,6 @@ return new class extends Migration
             $table->foreign('match_id_from')->references('id')->on('LinkaUsers')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
-
             $table->foreign('match_id_to')->references('id')->on('LinkaUsers')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');

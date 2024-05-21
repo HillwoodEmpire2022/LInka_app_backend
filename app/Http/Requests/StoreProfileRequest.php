@@ -2,12 +2,13 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rules\File;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
-class CreateProfileRequest extends FormRequest
+class StoreProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,37 +26,36 @@ class CreateProfileRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'user_id'=>['numeric'],
             "firstName" => "required|string",
             "lastName" => "required|string",
             "nickName" => "required|string",
-            "age" => "required|integer",
+            "age" => "required",
             "gender" => "required|string",
-            // "country" => "required",
+            "country" => "required",
             "height" => "nullable",
             "weight" => "nullable",
             "personalInfo" => "nullable",
             "sexualOrientation" => "nullable",
             "lookingFor" => "required|string",
             "lookingDescription" => "required|string",
-            "profileImagePath" => "required|image|mimes:jpeg,png,jpg,gif,svg",
+            "profileImagePath" => ['nullable'],
+            // 'profileAttachments.*' =>'image|mimes:jpeg|,png|jpg|gif|max:2024', // Adjust the max file size and allowed MIME types as needed
+            
         ];
     }
-
-    /**
-     * Handle a failed validation attempt.
-     *
-     * @throws HttpResponseException
-     */
-    protected function failedValidation(Validator $validator): void
+    protected function prepareForValidation()
     {
-        if ($validator->fails()) {
-            throw new HttpResponseException(response()
-                    ->json(
-                        [
-                            "errors" => $validator->errors()->all(),
-                        ],
-                        Response::HTTP_UNPROCESSABLE_ENTITY
-                    ));
+        //  check if the user is authenticated
+        if(auth()->check()){
+            $this->merge([
+                'user_id'=>auth()->user()->id
+            ]);
         }
     }
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        throw new \Illuminate\Http\Exceptions\HttpResponseException(response()->json($validator->errors(), 422));
+    }
+
 }
