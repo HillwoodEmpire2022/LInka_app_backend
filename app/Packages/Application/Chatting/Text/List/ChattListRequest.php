@@ -20,7 +20,7 @@ class ChattListRequest{
 
     public function validate(Request $request){
         $rules = [
-            'senderID'=>'required|integer|users,id',
+            'senderID'=>'required|integer',
         ];
 
         $validator = Validator::make($request->all(), $rules);
