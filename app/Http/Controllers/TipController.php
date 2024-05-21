@@ -13,7 +13,6 @@ use App\Http\Resources\ProfileResource;
 class TipController extends Controller
 {
     //
- 
         /**
      * Display a listing of the resource.
      * @return  \Illuminate\Http\Resources\Json\AnonymousResourceCollection
@@ -31,8 +30,6 @@ class TipController extends Controller
     *   @OA\Response(response=400, description="Invalid request")
      * )
      */
-
-
     public function index()
     {
         //
@@ -73,7 +70,6 @@ class TipController extends Controller
      * )
      */
 
-
     public function store(StoreTipRequest $request){
         $user = $request->user(); 
         $data = $request->validated();
@@ -88,6 +84,7 @@ class TipController extends Controller
             'data'=>$data,
            ]);
     }
+    
      /**
      * @OA\Put(
      *     path="/api/tip/{tip}/update",

@@ -54,31 +54,3 @@ Route::post('/profile/reset-password',[AuthController::class,'ResetPassword']);
 Route::get('/login/google', [GoogleLoginController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/login/google/callback', [GoogleLoginController::class, 'handleGoogleCallback']);
 
-
-
-
-
-
-
-
-
-
-
-// Route::prefix("/chatting")->group(function() {
-
-//     Route::post("/linka/{senderID}/{receiverID}", [ChattingController::class, "createChatting"]);
-
-//     Route::get("/linka/chat-list/{userID}", [ChattingController::class, "chattingList"]);
-
-//     Route::get("/linka/chat-messsage/{senderID}/{receiverID}", [ChattingController::class, "chattingMessages"]);
-// });
-
-// Route::prefix("/match")->group(function() {
-//     Route::post("/request-match/{matchFrom}/{matchTo}", [MachingController::class, "requestMatching"]);
-
-//     Route::put("/update-match/{matchFrom}/{matchTo}", [MachingController::class, "updateMatching"]);
-
-//     Route::get("/list-match/{linkaUser}", [MachingController::class, "listMatching"]);
-
-//     Route::delete("decline-match/{matchFrom}/{matchTo}", [MachingController::class, "declineMatching"]);
-// });
