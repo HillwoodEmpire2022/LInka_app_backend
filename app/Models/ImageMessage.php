@@ -5,18 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Message extends Model
+class ImageMessage extends Model
 {
     use HasFactory;
-
-    protected $guarded = [];
 
     protected $fillable = [
         'sender_id',
         'receiver_id',
-        'content',
+        'image_url',
         'conversation_id',
     ];
 
-    protected $table = "Message";
+    protected $table = "image_message";
 }

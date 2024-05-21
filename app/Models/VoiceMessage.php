@@ -5,18 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Message extends Model
+class VoiceMessage extends Model
 {
     use HasFactory;
-
-    protected $guarded = [];
 
     protected $fillable = [
         'sender_id',
         'receiver_id',
-        'content',
+        'voice_url',
         'conversation_id',
     ];
 
-    protected $table = "Message";
+    protected $table = "voice_message";
 }
