@@ -94,5 +94,16 @@ Route::prefix("/convo")->group(function(){
     
 });
 
+Route::prefix("/therapy")->group(function(){
 
+    Route::get("/category/all", [TherapyController::class, "getTherapyCategories"]);
+
+    Route::post("/category/create", [TherapyController::class, "createTherapyCategory"]);
+
+    Route::get("/category/find", [TherapyController::class, "getOneTherapy"]);
+
+    Route::get("/category/find", [TherapyController::class, "getOneTherapy"]);
+
+    
+});
 
