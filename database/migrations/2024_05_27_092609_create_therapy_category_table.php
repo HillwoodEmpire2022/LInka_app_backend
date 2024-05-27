@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-            $table->string('cover_path',1024)->nullable();
-            $table->string('avatar_path',1025)->nullable();
+        Schema::create('therapy_category', function (Blueprint $table) {
+            $table->id();
+            $table->string('Category_name');
+            $table->string('cover_image')->default('No cover pic provided');
+            $table->timestamps();
         });
     }
 
@@ -23,9 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-           
-        });
+        Schema::dropIfExists('therapy_category');
     }
 };

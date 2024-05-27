@@ -9,6 +9,7 @@ use App\Http\Controllers\ChattingController;
 use App\Http\Controllers\GoogleLoginController;
 use App\Http\Controllers\TipController;
 use App\Http\Controllers\ConversationController;
+use App\Http\Controllers\TherapyController;
 
 
 
@@ -92,4 +93,6 @@ Route::prefix("/convo")->group(function(){
     Route::delete('/delete', [ConversationController::class, "deleteConvo"]);
     
 });
+
+
 
