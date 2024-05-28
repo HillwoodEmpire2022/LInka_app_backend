@@ -10,6 +10,8 @@ use App\Http\Controllers\GoogleLoginController;
 use App\Http\Controllers\TipController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\TherapyController;
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\TherapyTypeController;
 
 
 
@@ -102,8 +104,31 @@ Route::prefix("/therapy")->group(function(){
 
     Route::get("/category/find", [TherapyController::class, "getOneTherapy"]);
 
-    Route::get("/category/find", [TherapyController::class, "getOneTherapy"]);
+    Route::patch("/category/update", [TherapyController::class, "updateTherapy"]);
 
+    Route::delete("/category/delete", [TherapyController::class, "deleteTherapy"]);
+
+
+    Route::post("/appointment/create", [AppointmentController::class, "createAppointment"]);
+
+    Route::get("/appointment/all", [AppointmentController::class, "getAllAppointment"]);
+
+    Route::get("/appointment/find", [AppointmentController::class, "getOneAppointment"]);
+
+    Route::patch("/appointment/update", [AppointmentController::class, "updateAppointment"]);
+
+    Route::delete("/appointment/delete", [AppointmentController::class, "deleteAppointment"]);
+
+
+    Route::post("/type/create", [TherapyTypeController::class, "createTherapyType"]);
+
+    Route::get("/type/all", [TherapyTypeController::class, "allTherapyType"]);
+
+    Route::get("/type/find", [TherapyTypeController::class, "findTherapyType"]);
+
+    Route::patch("/type/update", [TherapyTypeController::class, "updateTherapyType"]);
+
+    Route::delete("/type/delete", [TherapyTypeController::class, "deleteTherapyType"]);
     
 });
 

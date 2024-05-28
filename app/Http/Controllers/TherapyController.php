@@ -6,7 +6,9 @@ use App\Packages\Application\Therapy\Create\CreateTherapyService;
 use App\Packages\Application\Therapy\Find\FindOneTherapyRequest;
 use App\Packages\Application\Therapy\Find\FindOneTherapyService;
 use App\Packages\Application\Therapy\All\AllTherapyService;
-
+use App\Packages\Application\Therapy\Delete\DeleteTherapyService;
+use App\Packages\Application\Therapy\Update\UpdateTherapyRequest;
+use App\Packages\Application\Therapy\Update\UpdateTherapyService;
 use Illuminate\Http\Request;
 
 class TherapyController extends Controller
@@ -31,5 +33,17 @@ class TherapyController extends Controller
 
         return $allTherapyService->allTherapy();
         
+    }
+
+    public function deleteTherapy(Request $request, DeleteTherapyService $deleteTherapyService){
+
+        $findOneTherapyRequest = new FindOneTherapyRequest($request);
+        return $deleteTherapyService->deleeteTherapy($findOneTherapyRequest);
+    }
+
+    public function updateTherapy(Request $request, UpdateTherapyService $updateTherapyService){
+
+        $updateTherapyRequest = new UpdateTherapyRequest($request);
+        return $updateTherapyService->updateTherapy($updateTherapyRequest);
     }
 }
