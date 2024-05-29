@@ -21,6 +21,7 @@ class CreateAppointmentRequest{
     public function __construct(Request $request)
     {
 
+        $this->validate($request);
         $this->full_name=$request->input('full_name');
         $this->age=$request->input('age');
         $this->location=$request->input('location');
@@ -39,12 +40,11 @@ class CreateAppointmentRequest{
             'location'=>'required|string|max:300',
             'gender'=>'required|string|max:10',
             'message'=>'required|string|max:500',
-            'phone_number'=>'required|string|30',
+            'phone_number'=>'required|string|max:30',
             'therapy_needed'=>'required',
         ];
-
-        $validator = Validator::make($request->all(), $rules);
-        if($validator->fails()){
+        $validator =Validator::make($request->all(), $rules);
+        if ($validator->fails()){
             throw new Exception('Validation failed: ' . implode(', ', $validator->errors()->all()));
         }
     }

@@ -1,20 +1,21 @@
 <?php
 
-namespace App\Packages\application\TherapyType\All;
+namespace App\Packages\Application\Therapist\All\All;
 
-use App\Packages\Infrastructure\TherapyTypeRepository;
+use App\Packages\Infrastructure\TherapistRepository;
 
 class AllTherapyTypeService{
 
-    protected $therapyTypeRepository;
+    protected $therapistRepository;
 
-    public function __construct(TherapyTypeRepository $therapyTypeRepository)
+    public function __construct(TherapistRepository $therapistRepository)
     {
-        $this->therapyTypeRepository = $therapyTypeRepository;
+        $this->therapistRepository = $therapistRepository;
     }
 
-    public function allTherapyType(){
+    public function allTherapist(){
 
-        return $this->therapyTypeRepository->getAllTherapyType();
+        return $this->therapistRepository->getAllTherapist();
+        
     }
 }

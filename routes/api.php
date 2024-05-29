@@ -12,6 +12,7 @@ use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\TherapyController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\TherapyTypeController;
+use App\Http\Controllers\TherapistController;
 
 
 
@@ -129,6 +130,17 @@ Route::prefix("/therapy")->group(function(){
     Route::patch("/type/update", [TherapyTypeController::class, "updateTherapyType"]);
 
     Route::delete("/type/delete", [TherapyTypeController::class, "deleteTherapyType"]);
+
+
+    Route::post("/therapist/create", [TherapistController::class, "createTherapist"]);
+
+    Route::get("/therapist/all", [TherapistController::class, "allTherapist"]);
+
+    Route::get("/therapist/one", [TherapistController::class, "findTherapist"]);
+
+    Route::patch("/therapist/update", [TherapistController::class, "updateTherapist"]);
+
+    Route::delete("/therapist/delete", [TherapistController::class, "deleteTherapist"]);
     
 });
 
