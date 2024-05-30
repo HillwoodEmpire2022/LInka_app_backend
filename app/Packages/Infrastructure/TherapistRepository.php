@@ -31,7 +31,7 @@ class TherapistRepository{
 
     public function getOneTherapist(int $id){
 
-        return $this->therapistModels->where('id', $id);
+        return $this->therapistModels->where('id', $id)->get();
 
     }
 

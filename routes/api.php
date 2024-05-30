@@ -13,6 +13,7 @@ use App\Http\Controllers\TherapyController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\TherapyTypeController;
 use App\Http\Controllers\TherapistController;
+use App\Http\Controllers\AppointmentVerificationController;
 
 
 
@@ -142,5 +143,15 @@ Route::prefix("/therapy")->group(function(){
 
     Route::delete("/therapist/delete", [TherapistController::class, "deleteTherapist"]);
     
+
+    Route::post("/verification/create", [AppointmentVerificationController::class, "createVerification"]);
+
+    Route::get("/verification/all", [AppointmentVerificationController::class, "allVerification"]);
+
+    Route::get("/verification/find", [AppointmentVerificationController::class, "findVerification"]);
+
+    Route::patch("/verification/update", [AppointmentVerificationController::class, "updateVerification"]);
+
+    Route::delete("/verification/delete", [AppointmentVerificationController::class, "deleteVerification"]);
 });
 
