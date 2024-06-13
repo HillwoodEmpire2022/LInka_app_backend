@@ -15,7 +15,6 @@ use Illuminate\Http\Request;
 class AppointmentVerificationController extends Controller
 {
     
-
     public function createVerification(Request $request, CreateVerificationService $createVerificationService){
         $verificationRequest = new CreateVerificationRequest($request);
         return $createVerificationService->createVerification($verificationRequest);
