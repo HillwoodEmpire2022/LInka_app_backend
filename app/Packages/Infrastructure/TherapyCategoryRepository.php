@@ -24,10 +24,8 @@ class TherapyCategoryRepository{
     }
 
     public function deleteTherapy(string $id){
-
-        $therapyID = $this->therapyModel::findOrFail($id);
         
-        return $this->therapyModel->destroy($therapyID);
+        return $this->therapyModel->destroy($id);
     }
 
     public function updateTherapy(string $id, array $data){

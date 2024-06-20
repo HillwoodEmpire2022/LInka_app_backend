@@ -10,9 +10,11 @@ use App\Http\Controllers\GoogleLoginController;
 use App\Http\Controllers\TipController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\TherapyController;
-
-
-
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\TherapyTypeController;
+use App\Http\Controllers\TherapistController;
+use App\Http\Controllers\AppointmentVerificationController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -102,8 +104,56 @@ Route::prefix("/therapy")->group(function(){
 
     Route::get("/category/find", [TherapyController::class, "getOneTherapy"]);
 
-    Route::get("/category/find", [TherapyController::class, "getOneTherapy"]);
+    Route::patch("/category/update", [TherapyController::class, "updateTherapy"]);
 
+    Route::delete("/category/delete", [TherapyController::class, "deleteTherapy"]);
+
+
+    Route::post("/appointment/create", [AppointmentController::class, "createAppointment"]);
+
+    Route::get("/appointment/all", [AppointmentController::class, "getAllAppointment"]);
+
+    Route::get("/appointment/find", [AppointmentController::class, "getOneAppointment"]);
+
+    Route::patch("/appointment/update", [AppointmentController::class, "updateAppointment"]);
+
+    Route::delete("/appointment/delete", [AppointmentController::class, "deleteAppointment"]);
+
+
+    Route::post("/type/create", [TherapyTypeController::class, "createTherapyType"]);
+
+    Route::get("/type/all", [TherapyTypeController::class, "allTherapyType"]);
+
+    Route::get("/type/find", [TherapyTypeController::class, "findTherapyType"]);
+
+    Route::patch("/type/update", [TherapyTypeController::class, "updateTherapyType"]);
+
+    Route::delete("/type/delete", [TherapyTypeController::class, "deleteTherapyType"]);
+
+
+    Route::post("/therapist/create", [TherapistController::class, "createTherapist"]);
+
+    Route::get("/therapist/all", [TherapistController::class, "allTherapist"]);
+
+    Route::get("/therapist/one", [TherapistController::class, "findTherapist"]);
+
+    Route::patch("/therapist/update", [TherapistController::class, "updateTherapist"]);
+
+    Route::delete("/therapist/delete", [TherapistController::class, "deleteTherapist"]);
     
+
+    Route::post("/verification/create", [AppointmentVerificationController::class, "createVerification"]);
+
+    Route::get("/verification/all", [AppointmentVerificationController::class, "allVerification"]);
+
+    Route::get("/verification/find", [AppointmentVerificationController::class, "findVerification"]);
+
+    Route::patch("/verification/update", [AppointmentVerificationController::class, "updateVerification"]);
+
+    Route::delete("/verification/delete", [AppointmentVerificationController::class, "deleteVerification"]);
 });
 
+
+Route::prefix("/payment")->group(function(){
+    Route::post('/cashin', [PaymentController::class, "cashIn"]);
+});

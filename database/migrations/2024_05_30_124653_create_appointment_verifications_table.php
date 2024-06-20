@@ -13,10 +13,17 @@ return new class extends Migration
     {
         Schema::create('appointment_verifications', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('LinkerUserID');
+            $table->dateTime('Appointment_date');
             $table->unsignedBigInteger('TherapyType');
             $table->unsignedBigInteger('Therapist_Assigned');
             $table->string('Appointment_Status')->comment('This can be DONE, TO DO or FAILED')->default('TO DO');
             $table->timestamps();
+
+
+            $table->foreign('LinkerUserID')->references('user_id')->on('LinkaUsers')
+                  ->onDelete('restrict')
+                  ->onUpdate('cascade');  
 
             $table->foreign('Therapist_Assigned')->references('id')->on('therapists')
                   ->onDelete('restrict')
