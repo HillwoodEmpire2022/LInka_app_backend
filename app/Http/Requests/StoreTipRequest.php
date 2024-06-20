@@ -25,7 +25,10 @@ class StoreTipRequest extends FormRequest
             //
             'user_id'=>['numeric'],
             'tip_title'=>'required|string',
+            'tip_type'=>'required|string',
             'image'=>'nullable',
+            'video_tip'=>'nullable',
+            'audio_tip'=>'nullable',
             'description'=>'required|string'
         ];
     }
