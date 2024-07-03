@@ -34,8 +34,8 @@ jobs:
       - name: Copy files to DigitalOcean server
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          USER: deployer
-          HOST: 68.183.53.69
+          USER: linka
+          HOST: 64.225.14.123
           APP_DIR: /var/www/LInka_app_backend
 
         run: |
@@ -50,8 +50,8 @@ jobs:
       - name: Install dependencies on server
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          USER: deployer
-          HOST: 68.183.53.69
+          USER: linka
+          HOST: 64.225.14.123
           APP_DIR: /var/www/LInka_app_backend
 
         run: |
