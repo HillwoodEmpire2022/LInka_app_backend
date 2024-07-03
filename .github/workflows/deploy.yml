@@ -47,6 +47,14 @@ jobs:
 
           rsync -avz --delete --exclude 'vendor' --exclude '.env' . $USER@$HOST:$APP_DIR
 
+      - name: Check file permissions on id_rsa
+        run: |
+            ls -l ~/.ssh/id_rsa
+    
+      - name: Set permissions on id_rsa (if needed)
+        run: |
+            chmod 600 ~/.ssh/id_rsa
+
       - name: Install dependencies on server
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
