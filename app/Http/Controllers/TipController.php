@@ -76,6 +76,12 @@ class TipController extends Controller
         if($request->hasFile('image')){
             $data['image'] = $request->file('image')->store('tips_img','public');
            }
+        elseif($request->hasFile('video_tip')){
+            $data['video_tip'] = $request->file('video_tip')->store('video_tip', 'public');
+        }
+        elseif($request->hasFile('audio_tip')){
+            $data['audio_tip'] = $request->file('audio_tip')->store('audio_tip', 'public');
+        }
            Tip::create(
             // 'user_id'=> $user->id,
             $data);
