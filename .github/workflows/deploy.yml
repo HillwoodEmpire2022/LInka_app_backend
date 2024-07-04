@@ -45,7 +45,7 @@ jobs:
 
           ssh-keyscan -H $HOST >> ~/.ssh/known_hosts
 
-          rsync -avz --delete --exclude 'vendor' --exclude '.env' . $USER@$HOST:$APP_DIR
+          rsync -avz --delete --exclude 'vendor' --exclude '.env' --exclude '.git' . linka@64.225.14.123:/var/www/LInka_app_backend
 
       - name: Check file permissions on id_rsa
         run: |
