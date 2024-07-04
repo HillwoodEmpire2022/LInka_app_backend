@@ -28,8 +28,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-php-
 
+
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress
+        run: 
+          composer update
+          composer install --prefer-dist --no-progress
 
       - name: Copy files to DigitalOcean server
         env:
@@ -65,7 +68,6 @@ jobs:
         run: |
           ssh linka@64.225.14.123 << 'EOF'
             cd /var/www/LInka_app_backend
-            composer update
             composer install --no-dev --optimize-autoloader
             php artisan migrate --force
             php artisan config:cache
