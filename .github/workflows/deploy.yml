@@ -61,10 +61,11 @@ jobs:
           USER: linka
           HOST: 64.225.14.123
           APP_DIR: /var/www/LInka_app_backend
-
+      
         run: |
           ssh linka@64.225.14.123 << 'EOF'
             cd /var/www/LInka_app_backend
+            composer update
             composer install --no-dev --optimize-autoloader
             php artisan migrate --force
             php artisan config:cache
