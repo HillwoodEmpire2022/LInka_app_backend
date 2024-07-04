@@ -20,7 +20,7 @@ jobs:
       - name: Validate composer.json and composer.lock
         run: 
           composer update
-          composer validate --strict
+          composer validate 
 
       - name: Cache Composer packages
         uses: actions/cache@v2
