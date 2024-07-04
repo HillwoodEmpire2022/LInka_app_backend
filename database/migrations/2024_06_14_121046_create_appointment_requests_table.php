@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('Age');
             $table->string('Location')->default('Kigali city');
             $table->string('Gender')->comment('Male or Female');
-            $table->text('Message')->default('I want a Therapist');
+            $table->text('Message');
             $table->string('Phone_number');
             $table->unsignedBigInteger('TherapyType_needed')->comment('This is the kind of Therapy a patient need');
             $table->string('Consultation_type')->default('video')->comment('this can be video, face-to-face, phone call');
