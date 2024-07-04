@@ -14,9 +14,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\TherapyTypeController;
 use App\Http\Controllers\TherapistController;
 use App\Http\Controllers\AppointmentVerificationController;
-
-
-
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -155,3 +153,7 @@ Route::prefix("/therapy")->group(function(){
     Route::delete("/verification/delete", [AppointmentVerificationController::class, "deleteVerification"]);
 });
 
+
+Route::prefix("/payment")->group(function(){
+    Route::post('/cashin', [PaymentController::class, "cashIn"]);
+});
