@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Password;
 class AuthController extends Controller
 {
     //
-/**
-* @OA\Post(
+    /**
+     * @OA\Post(
      *     path="/api/register",
      *     summary="Register a new user",
      * tags={"Auth"},
@@ -47,49 +47,63 @@ class AuthController extends Controller
      */
 
 
-    public function Register(RegisterRequest $request){
+    public function Register(RegisterRequest $request)
+    {
+
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+        header("Access-Control-Allow-Headers: Content-Type, Authorization");
+        header("Access-Control-Allow-Credentials: true");
+
+        
+        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+            http_response_code(200);
+            exit();
+        }
+
 
         $data = $request->validated();
-        $user=User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password'=>bcrypt($data['password'])
+            'password' => bcrypt($data['password'])
         ]);
-        
+
         $token = $user->createToken('userToken')->plainTextToken;
         $response = [
-            'user'=>$user,
-            'token'=>$token
+            'user' => $user,
+            'token' => $token
         ];
-        return response($response,201);
+        return response($response, 201);
     }
-/**
- * @OA\Post(
- *     path="/api/login",
- *     summary="Authenticate user and generate JWT token",
- *     tags={"Auth"},
- *     @OA\Parameter(
- *         name="email",
- *         in="query",
- *         description="User's email",
- *         required=true,
- *         @OA\Schema(type="string")
- *     ),
- *     @OA\Parameter(
- *         name="password",
- *         in="query",
- *         description="User's password",
- *         required=true,
- *         @OA\Schema(type="string")
- *     ),
- *   
- *     @OA\Response(response="200", description="Login successful"),
- *     @OA\Response(response="401", description="Invalid credentials"),
- *     @OA\Response(response="419", description="Page expired")
- * )
- */
+    /**
+     * @OA\Post(
+     *     path="/api/login",
+     *     summary="Authenticate user and generate JWT token",
+     *     tags={"Auth"},
+     *     @OA\Parameter(
+     *         name="email",
+     *         in="query",
+     *         description="User's email",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Parameter(
+     *         name="password",
+     *         in="query",
+     *         description="User's password",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *   
+     *     @OA\Response(response="200", description="Login successful"),
+     *     @OA\Response(response="401", description="Invalid credentials"),
+     *     @OA\Response(response="419", description="Page expired")
+     * )
+     */
 
-    public function Login(LoginRequest $request){
+    public function Login(LoginRequest $request)
+    {
         $data = $request->validated();
         //  check for Email
         if (!Auth::attempt($data)) {
@@ -97,19 +111,20 @@ class AuthController extends Controller
                 'message' => 'Provided email or password is incorrect'
             ], 422);
         }
-         /** @var \App\Models\User $user */
+        /** @var \App\Models\User $user */
         $user = Auth::user();
         $token = $user->createToken('userToken')->plainTextToken;
         return response(compact('user', 'token'));
     }
 
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
 
-      /** @var \App\Models\User $user */
-         $user = $request->user();
+        /** @var \App\Models\User $user */
+        $user = $request->user();
         //  $user->currentAccessToken()->delete();
         return [
-            'message'=>'logged out'
+            'message' => 'logged out'
         ];
     }
 
@@ -122,8 +137,8 @@ class AuthController extends Controller
         );
 
         return $status === Password::RESET_LINK_SENT
-                    ? response()->json(['message' => __($status)])
-                    : response()->json(['message' => __($status)], 400);
+            ? response()->json(['message' => __($status)])
+            : response()->json(['message' => __($status)], 400);
     }
 
     public function ResetPassword(Request $request)
@@ -146,5 +161,4 @@ class AuthController extends Controller
             return response()->json(['message' => 'Unable to reset password'], 400);
         }
     }
-    
 }
