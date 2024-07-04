@@ -63,8 +63,8 @@ jobs:
           APP_DIR: /var/www/LInka_app_backend
 
         run: |
-          ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
-            cd $APP_DIR
+          ssh linka@64.225.14.123 << 'EOF'
+            cd /var/www/LInka_app_backend
             composer install --no-dev --optimize-autoloader
             php artisan migrate --force
             php artisan config:cache
