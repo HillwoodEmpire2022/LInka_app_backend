@@ -29,7 +29,7 @@ class AppointmentVerificationRepository{
     }
 
     public function findVerification(string $id){
-        return $this->appointmentVerificationModel::where('id', $id);
+        return $this->appointmentVerificationModel::where('id', $id)->get();
     }
 
     public function updateVerification(string $id, array $data){
