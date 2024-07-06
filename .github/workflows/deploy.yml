@@ -49,17 +49,7 @@ jobs:
 
       - name: Sync files to server
         run: |
-            rsync -avz --no-perms --no-owner --no-group \
-              --delete 
-              --exclude 'vendor' \
-              --exclude '.env' \
-              --exclude '.git' \
-              --exclude 'storage/framework/cache/data/' \
-              --exclude 'storage/framework/sessions/' \
-              --exclude 'storage/framework/testing/' \
-              --exclude 'storage/framework/views/' \
-              --exclude 'storage/logs/' \
-              . linka@64.225.14.123:/var/www/LInka_app_backend
+            rsync -avz --no-perms --no-owner --no-group --delete --exclude 'vendor' --exclude '.env' --exclude '.git' --exclude 'storage/framework/' --exclude 'storage/logs/' . linka@64.225.14.123:/var/www/LInka_app_backend
       
       - name: Fix permissions
         run: |
