@@ -48,6 +48,7 @@ jobs:
               ssh-keyscan -H 64.225.14.123 >> ~/.ssh/known_hosts
 
       - name: Sync files to server
+        if: github.ref == 'refs/heads/main'
         run: |
             rsync -avz --no-perms --no-owner --no-group --delete --exclude 'vendor' --exclude '.env' --exclude '.git' --exclude 'storage/framework/' --exclude 'storage/logs/' . linka@64.225.14.123:/var/www/LInka_app_backend
       
