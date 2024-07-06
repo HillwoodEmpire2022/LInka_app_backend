@@ -180,7 +180,7 @@ class ChattingService
         
         // Otherwise
         else {
-            return "Make sure you Both have Subscription";
+            return "It seems like you're poor. look at you, you don't even have any subsciption? what a shame!!";
             
         }
     }
