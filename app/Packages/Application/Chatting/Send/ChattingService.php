@@ -180,8 +180,8 @@ class ChattingService
         
         // Otherwise
         else {
-            return "Are you sure You have subscription? or you want to use free subscription??";
-            // Make sure you Both have Subscription
+            return "Make sure you Both have Subscription";
+            
         }
     }
 
