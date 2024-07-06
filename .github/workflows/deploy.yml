@@ -38,34 +38,22 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-php-
 
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      
+      - name: Sync files to server
+        run: |
+            rsync -avz --no-perms --no-owner --no-group --delete --exclude 'vendor' --exclude '.env' --exclude '.git' . linka@64.225.14.123:/var/www/LInka_app_backend
+      
+      - name: Fix permissions
+        run: |
+            ssh linka@64.225.14.123 'sudo chown -R linka:www-data /var/www/LInka_app_backend && sudo chmod -R 775 /var/www/LInka_app_backend'
 
       - name: Install dependencies
         run: 
           composer install --prefer-dist --no-progress
-
-      - name: Copy files to DigitalOcean server
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          USER: linka
-          HOST: 64.225.14.123
-          APP_DIR: /var/www/LInka_app_backend
-
-        run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-
-          ssh-keyscan -H $HOST >> ~/.ssh/known_hosts
-
-          rsync -avz --delete --exclude 'vendor' --exclude '.env' --exclude '.git' . linka@64.225.14.123:/var/www/LInka_app_backend
-
-      - name: Check file permissions on id_rsa
-        run: |
-            ls -l ~/.ssh/id_rsa
-    
-      - name: Set permissions on id_rsa (if needed)
-        run: |
-            chmod 600 ~/.ssh/id_rsa
 
       - name: Install dependencies on server
         env:
