@@ -13,7 +13,7 @@ class GetAllTherapyTypeService{
         $this->therapistRepository = $therapistRepository;
     }
 
-    public function allTherapist(){
+    public function getallTherapist(){
 
         return $this->therapistRepository->getAllTherapist();
         
