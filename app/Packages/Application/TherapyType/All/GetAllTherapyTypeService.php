@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Packages\Application\Therapist\All\All;
+namespace App\Packages\Application\TherapyType\All;
 
 use App\Packages\Infrastructure\TherapistRepository;
 
-class AllTherapyTypeService{
+class GetAllTherapyTypeService{
 
     protected $therapistRepository;
 
