@@ -24,7 +24,7 @@ class TherapyTypeController extends Controller
 
     public function allTherapyType(GetAllTherapyTypeService $allTherapyTypeService){
 
-        return $allTherapyTypeService->allTherapist();
+        return $allTherapyTypeService->getallTherapist();
 
     }
     
