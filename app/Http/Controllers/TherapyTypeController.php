@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Packages\Application\Therapy\Find\FindOneTherapyRequest;
-use App\Packages\application\TherapyType\All\GetAllTherapyTypeService;
+use App\Packages\Application\TherapyType\All\GetAllTherapyTypeService;
 use App\Packages\Application\TherapyType\Create\CreateTherapyTypeRequest;
 use App\Packages\Application\TherapyType\Create\CreateTherapyTypeService;
 use App\Packages\Application\TherapyType\Delete\DeleteTherapyTypeService;
