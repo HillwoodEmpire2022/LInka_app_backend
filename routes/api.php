@@ -14,7 +14,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\TherapyTypeController;
 use App\Http\Controllers\TherapistController;
 use App\Http\Controllers\AppointmentVerificationController;
-use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\UserLocationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', function (Request $request) {
         return $request->user();
-    });
+    });});
 
     // Profile Routes end endpoint
 Route::apiResource('/profile',ProfileController::class);    
@@ -46,7 +46,7 @@ Route::put('/tip/{tip}/update',[TipController::class,'update']);
 Route::delete('/tip/{tip}/delete',[TipController::class,'destroy']);
 Route::get('/tip/{tip}/get',[TipController::class,'show']);
 
-});
+
 
 Route::post('/login', [AuthController::class, 'Login']);
 Route::post('/register', [AuthController::class, 'Register']);
@@ -57,7 +57,7 @@ Route::get('/login/google', [GoogleLoginController::class, 'redirectToGoogle'])-
 Route::get('/login/google/callback', [GoogleLoginController::class, 'handleGoogleCallback']);
 
 
-Route::prefix("/chatting")->group(function() {
+// Route::prefix("/chatting")->group(function() {
 
     // Text Messages endpoints
     Route::post("/message/send", [ChattingController::class, "createchatting"]);
@@ -84,7 +84,7 @@ Route::prefix("/chatting")->group(function() {
 
     Route::get("/picture/one", [ChattingController::class, "findOnePicture"]);
     
-});
+// });
 
 Route::prefix("/convo")->group(function(){
     
@@ -96,7 +96,7 @@ Route::prefix("/convo")->group(function(){
     
 });
 
-Route::prefix("/therapy")->group(function(){
+// Route::prefix("/therapy")->group(function(){
 
     Route::get("/category/all", [TherapyController::class, "getTherapyCategories"]);
 
@@ -151,9 +151,9 @@ Route::prefix("/therapy")->group(function(){
     Route::patch("/verification/update", [AppointmentVerificationController::class, "updateVerification"]);
 
     Route::delete("/verification/delete", [AppointmentVerificationController::class, "deleteVerification"]);
-});
+// });
 
 
-Route::prefix("/payment")->group(function(){
-    Route::post('/cashin', [PaymentController::class, "cashIn"]);
-});
+Route::post('/location/create', [UserLocationController::class, "locationCreateOrUpdate"]);
+
+Route::get('/location/all', [UserLocationController::class, "getlocation"]);

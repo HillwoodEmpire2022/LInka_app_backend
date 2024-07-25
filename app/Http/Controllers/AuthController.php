@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Auth\Events\Login;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\RegisterRequest;
+use App\Packages\Application\SignUp\RegisterRequest;
+use App\Packages\Application\SignUp\RegisterService;
 use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
@@ -46,35 +46,10 @@ class AuthController extends Controller
      * )
      */
 
-
-    public function Register(RegisterRequest $request)
-    {
-
-        header("Access-Control-Allow-Origin: *");
-        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-        header("Access-Control-Allow-Headers: Content-Type, Authorization");
-        header("Access-Control-Allow-Credentials: true");
-
-        
-        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-            http_response_code(200);
-            exit();
-        }
-
-
-        $data = $request->validated();
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password'])
-        ]);
-
-        $token = $user->createToken('userToken')->plainTextToken;
-        $response = [
-            'user' => $user,
-            'token' => $token
-        ];
-        return response($response, 201);
+    
+    public function register(Request $request, RegisterService $registerService){
+        $signup = new RegisterRequest($request);
+        return $registerService->create($signup);
     }
     /**
      * @OA\Post(

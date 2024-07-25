@@ -1,10 +1,8 @@
 <?php 
 
 namespace App\Packages\Application\Therapy\Create;
-
 use Exception;
 use Illuminate\Support\Facades\Validator;
-
 use Illuminate\Http\Request;
 
 class CreateTherapyRequest{
