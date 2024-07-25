@@ -46,6 +46,9 @@ jobs:
       - name: Add server to known hosts
         run: |
               ssh-keyscan -H 64.225.14.123 >> ~/.ssh/known_hosts
+      - name: Pre-sync-Permission
+        run: |
+              ssh linka@64.225.14.123 'sudo chown -R linka:www-data /var/www/LInka_app_backend && sudo chmod -R 775 /var/www/LInka_app_backend'
 
       - name: Sync files to server
         if: github.ref == 'refs/heads/main'
