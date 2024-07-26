@@ -24,9 +24,8 @@ jobs:
        
 
     - name: Build and push Docker image
-      working-directory: .
       run: |
-        docker build -t jephmaniragaba/linka_backend:latest .
+        docker build -t jephmaniragaba/linka_backend:latest -f  Linka_App_Backend/Dockerfile .
         docker push jephmaniragaba/linka_backend:latest
 
     - name: Login to Docker Hub
