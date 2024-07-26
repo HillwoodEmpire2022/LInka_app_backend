@@ -26,7 +26,7 @@ jobs:
 
     - name: Build and push Docker image
       run: |
-        cd D:\Linka_App_Backend\
+        cd Linka_App_Backend/
         docker build -t jephmaniragaba/linka_backend:latest .
         docker push jephmaniragaba/linka_backend:latest
 
