@@ -25,8 +25,8 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Build and push Docker image
+      working-directory: Linka_App_Backend
       run: |
-        cd Linka_App_Backend/
         docker build -t jephmaniragaba/linka_backend:latest .
         docker push jephmaniragaba/linka_backend:latest
 
