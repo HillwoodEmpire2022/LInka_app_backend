@@ -15,7 +15,7 @@ RUN mkdir /linka
 
 COPY apache/000-default.conf /etc/apache2/sites-available/000-default.conf
 
-ADD LInka_app_backend /linka
+ADD . /linka
 
 WORKDIR /linka
 
