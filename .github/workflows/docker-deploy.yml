@@ -19,6 +19,7 @@ jobs:
       uses: docker/setup-buildx-action@v2
 
     - name: Build and push Docker image
+      working-directory: Linka_App_Backend
       run: |
         docker build -t jephmaniragaba/linka_backend:latest .
         docker push jephmaniragaba/linka_backend:latest
