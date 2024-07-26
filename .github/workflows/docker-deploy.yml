@@ -21,12 +21,12 @@ jobs:
     - name: List directory contents
       run: |
         ls -la
-        ls -la Linka_App_Backend
+       
 
     - name: Build and push Docker image
       working-directory: Linka_App_Backend
       run: |
-        docker build -t jephmaniragaba/linka_backend:latest .
+        docker build -t jephmaniragaba/linka_backend:latest -f Dockerfile .
         docker push jephmaniragaba/linka_backend:latest
 
     - name: Login to Docker Hub
