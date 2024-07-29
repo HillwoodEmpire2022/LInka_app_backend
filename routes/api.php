@@ -1,7 +1,5 @@
 <?php
 
-
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
@@ -16,23 +14,39 @@ use App\Http\Controllers\TherapistController;
 use App\Http\Controllers\AppointmentVerificationController;
 use App\Http\Controllers\UserLocationController;
 
+
+
 /*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
+The logout route will be protected with the auth and verify.api middleware, 
+because only logged in users can log out, and only verified users can have 
+access to other endpoints. The verify email route will be protected with the 
+auth middleware. The other routes don’t need users to be authenticated or verified, 
+so don't need to be protected by any middleware.
 */
 
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });});
+    Route::post('/email/verify',[AuthController::class,'verifyEmail']);
+    
+    Route::middleware('verify.api')->group(function () {
+        Route::post('/logout',[AuthController::class, 'logout']);
+    });
+
+
+
+});
+
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/resend/email/token', [AuthController::class, 'resendPin']);
+Route::post('/forgot/password',[AuthController::class,'forgotPassword']);
+Route::post('/verify/pin', [AuthController::class, 'verifyPin']);
+Route::post('/reset/password',[AuthController::class,'resetPassword']);
+
+Route::get('/login/google', [GoogleLoginController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('/login/google/callback', [GoogleLoginController::class, 'handleGoogleCallback']);
+
+
 
     // Profile Routes end endpoint
 Route::apiResource('/profile',ProfileController::class);    
@@ -45,16 +59,6 @@ Route::post('/tip/create',[TipController::class,'store']);
 Route::put('/tip/{tip}/update',[TipController::class,'update']);
 Route::delete('/tip/{tip}/delete',[TipController::class,'destroy']);
 Route::get('/tip/{tip}/get',[TipController::class,'show']);
-
-
-
-Route::post('/login', [AuthController::class, 'Login']);
-Route::post('/register', [AuthController::class, 'Register']);
-Route::post('/profile/forgot-password',[AuthController::class,'forgot']);
-Route::post('/profile/reset-password',[AuthController::class,'ResetPassword']);
-
-Route::get('/login/google', [GoogleLoginController::class, 'redirectToGoogle'])->name('auth.google');
-Route::get('/login/google/callback', [GoogleLoginController::class, 'handleGoogleCallback']);
 
 
 // Route::prefix("/chatting")->group(function() {
@@ -157,3 +161,86 @@ Route::prefix("/convo")->group(function(){
 Route::post('/location/create', [UserLocationController::class, "locationCreateOrUpdate"]);
 
 Route::get('/location/all', [UserLocationController::class, "getlocation"]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* usefull article
+
+https://www.twilio.com/en-us/blog/customize-email-verification-password-resets-laravel
+
+*/
