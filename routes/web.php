@@ -1,15 +1,7 @@
 <?php
-
-use App\Http\Controllers\ConversationController;
+use App\Http\Controllers\GoogleLoginController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::prefix("/convo")->group(function(){
-    
-    Route::get("/find", [ConversationController::class, "findOneConvo"]);
-
-    Route::get('/all', [ConversationController::class, "findAllConvo"]);
-
-    Route::delete('/delete', [ConversationController::class, "deleteConvo"]);
-    
-});
+Route::get('/auth/google', [GoogleLoginController::class, 'redirectToGoogle']);
+Route::get('/auth/google/callback', [GoogleLoginController::class, 'handleGoogleCallback']);

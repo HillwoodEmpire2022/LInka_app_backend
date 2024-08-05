@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ChattingController;
-use App\Http\Controllers\GoogleLoginController;
 use App\Http\Controllers\TipController;
 use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\TherapyController;
@@ -31,9 +30,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('verify.api')->group(function () {
         Route::post('/logout',[AuthController::class, 'logout']);
     });
-
-
-
 });
 
 Route::post('/login', [AuthController::class, 'login']);
@@ -43,8 +39,7 @@ Route::post('/forgot/password',[AuthController::class,'forgotPassword']);
 Route::post('/verify/pin', [AuthController::class, 'verifyPin']);
 Route::post('/reset/password',[AuthController::class,'resetPassword']);
 
-Route::get('/login/google', [GoogleLoginController::class, 'redirectToGoogle'])->name('auth.google');
-Route::get('/login/google/callback', [GoogleLoginController::class, 'handleGoogleCallback']);
+
 
 
 
@@ -64,7 +59,7 @@ Route::get('/tip/{tip}/get',[TipController::class,'show']);
 // Route::prefix("/chatting")->group(function() {
 
     // Text Messages endpoints
-    Route::post("/message/send", [ChattingController::class, "createchatting"]);
+    Route::post("/message/send", [ChattingController::class, "createchatting"])->middleware('admin');
     
     Route::get("/message/list", [ChattingController::class, "chattingList"]);
     
