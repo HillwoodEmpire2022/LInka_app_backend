@@ -28,6 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/email/verify',[AuthController::class,'verifyEmail']);
     
     Route::middleware('verify.api')->group(function () {
+        Route::post("/message/send", [ChattingController::class, "createchatting"]);
         Route::post('/logout',[AuthController::class, 'logout']);
     });
 });
@@ -59,7 +60,7 @@ Route::get('/tip/{tip}/get',[TipController::class,'show']);
 // Route::prefix("/chatting")->group(function() {
 
     // Text Messages endpoints
-    Route::post("/message/send", [ChattingController::class, "createchatting"])->middleware('verify.api');
+
     
     Route::get("/message/list", [ChattingController::class, "chattingList"])->middleware('verify.api');
     

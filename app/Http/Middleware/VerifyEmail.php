@@ -18,7 +18,17 @@ class VerifyEmail
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->email_verified_at === null){
+
+        $user = Auth::user();
+
+        if ($user === null) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unauthenticated. Please log in.'
+            ], 401);
+        }
+
+        if ($user->email_verified_at === null){
             return new JsonResource([
                 'success'=>'Not Verified Email',
                 'message'=>'Please verify your email before you can continue'
