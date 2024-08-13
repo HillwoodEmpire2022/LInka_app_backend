@@ -59,103 +59,103 @@ Route::get('/tip/{tip}/get',[TipController::class,'show']);
 // Route::prefix("/chatting")->group(function() {
 
     // Text Messages endpoints
-    Route::post("/message/send", [ChattingController::class, "createchatting"])->middleware('admin');
+    Route::post("/message/send", [ChattingController::class, "createchatting"])->middleware('verify.api');
     
-    Route::get("/message/list", [ChattingController::class, "chattingList"]);
+    Route::get("/message/list", [ChattingController::class, "chattingList"])->middleware('verify.api');
     
-    Route::get("/message/one", [ChattingController::class, "oneChattMessage"]); 
+    Route::get("/message/one", [ChattingController::class, "oneChattMessage"])->middleware('verify.api'); 
 
-    Route::delete("/message/delete", [ChattingController::class, "deletingChat"]);
+    Route::delete("/message/delete", [ChattingController::class, "deletingChat"])->middleware('verify.api');
 
-    Route::patch('/message/update', [ChattingController::class, "updatingChat"]);
+    Route::patch('/message/update', [ChattingController::class, "updatingChat"])->middleware('verify.api');
 
     // Audio Messages endpoints
-    Route::post("/audio/send", [ChattingController::class, "AudioChatting"]);
+    Route::post("/audio/send", [ChattingController::class, "AudioChatting"])->middleware('verify.api');
 
-    Route::delete("/audio/delete", [ChattingController::class, "deletingAudioChatt"]);
+    Route::delete("/audio/delete", [ChattingController::class, "deletingAudioChatt"])->middleware('verify.api');
 
-    Route::delete("/audio/one", [ChattingController::class, "findOneAudiChat"]);
+    Route::delete("/audio/one", [ChattingController::class, "findOneAudiChat"])->middleware('verify.api');
 
    // Picture Messages endpoints
-    Route::post("/picture/send", [ChattingController::class, "pictureChatting"]);
+    Route::post("/picture/send", [ChattingController::class, "pictureChatting"])->middleware('verify.api');
 
-    Route::delete("/picture/delete", [ChattingController::class, "deletingPictureChat"]);
+    Route::delete("/picture/delete", [ChattingController::class, "deletingPictureChat"])->middleware('verify.api');
 
-    Route::get("/picture/one", [ChattingController::class, "findOnePicture"]);
+    Route::get("/picture/one", [ChattingController::class, "findOnePicture"])->middleware('verify.api');
     
 // });
 
 Route::prefix("/convo")->group(function(){
     
-    Route::get("/find", [ConversationController::class, "findOneConvo"]);
+    Route::get("/find", [ConversationController::class, "findOneConvo"])->middleware('verify.api');
 
-    Route::get('/all', [ConversationController::class, "findAllConvo"]);
+    Route::get('/all', [ConversationController::class, "findAllConvo"])->middleware('verify.api');
 
-    Route::delete('/delete', [ConversationController::class, "deleteConvo"]);
+    Route::delete('/delete', [ConversationController::class, "deleteConvo"])->middleware('verify.api');
     
 });
 
 // Route::prefix("/therapy")->group(function(){
 
-    Route::get("/category/all", [TherapyController::class, "getTherapyCategories"]);
+    Route::get("/category/all", [TherapyController::class, "getTherapyCategories"])->middleware('verify.api');
 
-    Route::post("/category/create", [TherapyController::class, "createTherapyCategory"]);
+    Route::post("/category/create", [TherapyController::class, "createTherapyCategory"])->middleware('verify.api');
 
-    Route::get("/category/find", [TherapyController::class, "getOneTherapy"]);
+    Route::get("/category/find", [TherapyController::class, "getOneTherapy"])->middleware('verify.api');
 
-    Route::patch("/category/update", [TherapyController::class, "updateTherapy"]);
+    Route::patch("/category/update", [TherapyController::class, "updateTherapy"])->middleware('verify.api');
 
-    Route::delete("/category/delete", [TherapyController::class, "deleteTherapy"]);
-
-
-    Route::post("/appointment/create", [AppointmentController::class, "createAppointment"]);
-
-    Route::get("/appointment/all", [AppointmentController::class, "getAllAppointment"]);
-
-    Route::get("/appointment/find", [AppointmentController::class, "getOneAppointment"]);
-
-    Route::patch("/appointment/update", [AppointmentController::class, "updateAppointment"]);
-
-    Route::delete("/appointment/delete", [AppointmentController::class, "deleteAppointment"]);
+    Route::delete("/category/delete", [TherapyController::class, "deleteTherapy"])->middleware('verify.api');
 
 
-    Route::post("/type/create", [TherapyTypeController::class, "createTherapyType"]);
+    Route::post("/appointment/create", [AppointmentController::class, "createAppointment"])->middleware('verify.api');
 
-    Route::get("/type/all", [TherapyTypeController::class, "allTherapyType"]);
+    Route::get("/appointment/all", [AppointmentController::class, "getAllAppointment"])->middleware('verify.api');
 
-    Route::get("/type/find", [TherapyTypeController::class, "findTherapyType"]);
+    Route::get("/appointment/find", [AppointmentController::class, "getOneAppointment"])->middleware('verify.api');
 
-    Route::patch("/type/update", [TherapyTypeController::class, "updateTherapyType"]);
+    Route::patch("/appointment/update", [AppointmentController::class, "updateAppointment"])->middleware('verify.api');
 
-    Route::delete("/type/delete", [TherapyTypeController::class, "deleteTherapyType"]);
+    Route::delete("/appointment/delete", [AppointmentController::class, "deleteAppointment"])->middleware('verify.api');
 
 
-    Route::post("/therapist/create", [TherapistController::class, "createTherapist"]);
+    Route::post("/type/create", [TherapyTypeController::class, "createTherapyType"])->middleware('verify.api');
 
-    Route::get("/therapist/all", [TherapistController::class, "allTherapist"]);
+    Route::get("/type/all", [TherapyTypeController::class, "allTherapyType"])->middleware('verify.api');
 
-    Route::get("/therapist/one", [TherapistController::class, "findTherapist"]);
+    Route::get("/type/find", [TherapyTypeController::class, "findTherapyType"])->middleware('verify.api');
 
-    Route::patch("/therapist/update", [TherapistController::class, "updateTherapist"]);
+    Route::patch("/type/update", [TherapyTypeController::class, "updateTherapyType"])->middleware('verify.api');
 
-    Route::delete("/therapist/delete", [TherapistController::class, "deleteTherapist"]);
+    Route::delete("/type/delete", [TherapyTypeController::class, "deleteTherapyType"])->middleware('verify.api');
+
+
+    Route::post("/therapist/create", [TherapistController::class, "createTherapist"])->middleware('verify.api');
+
+    Route::get("/therapist/all", [TherapistController::class, "allTherapist"])->middleware('verify.api');
+
+    Route::get("/therapist/one", [TherapistController::class, "findTherapist"])->middleware('verify.api');
+
+    Route::patch("/therapist/update", [TherapistController::class, "updateTherapist"])->middleware('verify.api');
+
+    Route::delete("/therapist/delete", [TherapistController::class, "deleteTherapist"])->middleware('verify.api');
     
 
-    Route::post("/verification/create", [AppointmentVerificationController::class, "createVerification"]);
+    Route::post("/verification/create", [AppointmentVerificationController::class, "createVerification"])->middleware('verify.api');
 
-    Route::get("/verification/all", [AppointmentVerificationController::class, "allVerification"]);
+    Route::get("/verification/all", [AppointmentVerificationController::class, "allVerification"])->middleware('verify.api');
 
-    Route::get("/verification/find", [AppointmentVerificationController::class, "findVerification"]);
+    Route::get("/verification/find", [AppointmentVerificationController::class, "findVerification"])->middleware('verify.api');
 
-    Route::patch("/verification/update", [AppointmentVerificationController::class, "updateVerification"]);
+    Route::patch("/verification/update", [AppointmentVerificationController::class, "updateVerification"])->middleware('verify.api');
 
-    Route::delete("/verification/delete", [AppointmentVerificationController::class, "deleteVerification"]);
+    Route::delete("/verification/delete", [AppointmentVerificationController::class, "deleteVerification"])->middleware('verify.api');
 // });
 
 
-Route::post('/location/create', [UserLocationController::class, "locationCreateOrUpdate"]);
+Route::post('/location/create', [UserLocationController::class, "locationCreateOrUpdate"])->middleware('verify.api');
 
-Route::get('/location/all', [UserLocationController::class, "getlocation"]);
+Route::get('/location/all', [UserLocationController::class, "getlocation"])->middleware('verify.api');
 
 
 
