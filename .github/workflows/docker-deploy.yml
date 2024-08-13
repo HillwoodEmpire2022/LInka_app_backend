@@ -43,17 +43,12 @@ jobs:
         script: |
           echo ${{ secrets.DOCKER_PASSWORD }} | sudo docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
-          if ! docker-compose --version; then
-             apt-get update
-             apt-get install -y docker-compose
-          fi
-          scp -o StrictHostKeyChecking=no docker-compose.yml linka@${{ secrets.NEW_SERVER_HOST }}:/home/linka/
-          ssh -o StrictHostKeyChecking=no linka@${{ secrets.NEW_SERVER_HOST }} << 'EOF'
+         
             cd /home/linka
             docker-compose pull
             docker-compose up -d --build
             docker-compose exec app php artisan migrate --force
-          EOF
+          
 
           # docker pull jephmaniragaba/linka_backend:latest
           # docker stop laravel-app || true
